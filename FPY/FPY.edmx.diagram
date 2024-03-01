@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7a5c1c2473204814b2b73bc6fbebf8d3" Name="Diagram1" ZoomLevel="98">
+        <EntityTypeShape EntityType="FPYModel.CNCOperation" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="FPYModel.Detailing" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="FPYModel.Product" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FPYModel.QualityControl" Width="1.5" PointX="9.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="FPYModel.sysdiagram" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FPYModel.WorkOrder" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="FPYModel.FK_CNCOperations_WorkOrders" ManuallyRouted="false" />
+        <AssociationConnector Association="FPYModel.FK_Detailing_CNCOperations" ManuallyRouted="false" />
+        <AssociationConnector Association="FPYModel.FK_QualityControl_Detailing" ManuallyRouted="false" />
+        <AssociationConnector Association="FPYModel.FK_WorkOrders_Products" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="FPYModel.Role" Width="1.5" PointX="3.375" PointY="5.25" />
+        <EntityTypeShape EntityType="FPYModel.User" Width="1.5" PointX="5.625" PointY="4.875" />
+        <AssociationConnector Association="FPYModel.FK_Users_Roles" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

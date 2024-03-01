@@ -1,0 +1,460 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FPYModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CNCOperations">
+          <Key>
+            <PropertyRef Name="CNCOperationID" />
+          </Key>
+          <Property Name="CNCOperationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WorkOrderID" Type="int" />
+          <Property Name="InputQuantityCNC" Type="int" />
+          <Property Name="OutputQuantityCNC" Type="int" />
+          <Property Name="DMRCNC" Type="int" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+          <Property Name="Timestamp" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Detailing">
+          <Key>
+            <PropertyRef Name="DetailingID" />
+          </Key>
+          <Property Name="DetailingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CNCOperationID" Type="int" />
+          <Property Name="InputQuantityDetail" Type="int" />
+          <Property Name="OutputQuantityDetail" Type="int" />
+          <Property Name="DMRDetail" Type="int" />
+          <Property Name="Timestamp" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PartNo" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="QualityControl">
+          <Key>
+            <PropertyRef Name="QCOperationID" />
+          </Key>
+          <Property Name="QCOperationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DetailingID" Type="int" />
+          <Property Name="InputQuantityQC" Type="int" />
+          <Property Name="OutputQuantityQC" Type="int" />
+          <Property Name="DMRQC" Type="int" />
+          <Property Name="Timestamp" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleID" Type="int" />
+          <Property Name="Username" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="CreateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="WorkOrders">
+          <Key>
+            <PropertyRef Name="WorkOrderID" />
+          </Key>
+          <Property Name="WorkOrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PartNo" Type="int" />
+          <Property Name="WorkOrderNo" Type="varchar" MaxLength="50" />
+          <Property Name="OutputQuantityPC" Type="int" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Detailing_CNCOperations">
+          <End Role="CNCOperations" Type="Self.CNCOperations" Multiplicity="0..1" />
+          <End Role="Detailing" Type="Self.Detailing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CNCOperations">
+              <PropertyRef Name="CNCOperationID" />
+            </Principal>
+            <Dependent Role="Detailing">
+              <PropertyRef Name="CNCOperationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QualityControl_Detailing">
+          <End Role="Detailing" Type="Self.Detailing" Multiplicity="0..1" />
+          <End Role="QualityControl" Type="Self.QualityControl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Detailing">
+              <PropertyRef Name="DetailingID" />
+            </Principal>
+            <Dependent Role="QualityControl">
+              <PropertyRef Name="DetailingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkOrders_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
+          <End Role="WorkOrders" Type="Self.WorkOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="WorkOrders">
+              <PropertyRef Name="PartNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FPYModelStoreContainer">
+          <EntitySet Name="CNCOperations" EntityType="Self.CNCOperations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Detailing" EntityType="Self.Detailing" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QualityControl" EntityType="Self.QualityControl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkOrders" EntityType="Self.WorkOrders" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Detailing_CNCOperations" Association="Self.FK_Detailing_CNCOperations">
+            <End Role="CNCOperations" EntitySet="CNCOperations" />
+            <End Role="Detailing" EntitySet="Detailing" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QualityControl_Detailing" Association="Self.FK_QualityControl_Detailing">
+            <End Role="Detailing" EntitySet="Detailing" />
+            <End Role="QualityControl" EntitySet="QualityControl" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkOrders_Products" Association="Self.FK_WorkOrders_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="WorkOrders" EntitySet="WorkOrders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FPYModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CNCOperation">
+          <Key>
+            <PropertyRef Name="CNCOperationID" />
+          </Key>
+          <Property Name="CNCOperationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WorkOrderID" Type="Int32" />
+          <Property Name="InputQuantityCNC" Type="Int32" />
+          <Property Name="OutputQuantityCNC" Type="Int32" />
+          <Property Name="DMRCNC" Type="Int32" />
+          <Property Name="Timestamp" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="WorkOrder" Relationship="Self.FK_CNCOperations_WorkOrders" FromRole="CNCOperations" ToRole="WorkOrders" />
+          <NavigationProperty Name="Detailings" Relationship="Self.FK_Detailing_CNCOperations" FromRole="CNCOperations" ToRole="Detailing" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Detailing">
+          <Key>
+            <PropertyRef Name="DetailingID" />
+          </Key>
+          <Property Name="DetailingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CNCOperationID" Type="Int32" />
+          <Property Name="InputQuantityDetail" Type="Int32" />
+          <Property Name="OutputQuantityDetail" Type="Int32" />
+          <Property Name="DMRDetail" Type="Int32" />
+          <Property Name="Timestamp" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CNCOperation" Relationship="Self.FK_Detailing_CNCOperations" FromRole="Detailing" ToRole="CNCOperations" />
+          <NavigationProperty Name="QualityControls" Relationship="Self.FK_QualityControl_Detailing" FromRole="Detailing" ToRole="QualityControl" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PartNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="WorkOrders" Relationship="Self.FK_WorkOrders_Products" FromRole="Products" ToRole="WorkOrders" />
+        </EntityType>
+        <EntityType Name="QualityControl">
+          <Key>
+            <PropertyRef Name="QCOperationID" />
+          </Key>
+          <Property Name="QCOperationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DetailingID" Type="Int32" />
+          <Property Name="InputQuantityQC" Type="Int32" />
+          <Property Name="OutputQuantityQC" Type="Int32" />
+          <Property Name="DMRQC" Type="Int32" />
+          <Property Name="Timestamp" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Detailing" Relationship="Self.FK_QualityControl_Detailing" FromRole="QualityControl" ToRole="Detailing" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="WorkOrder">
+          <Key>
+            <PropertyRef Name="WorkOrderID" />
+          </Key>
+          <Property Name="WorkOrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PartNo" Type="Int32" />
+          <Property Name="WorkOrderNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OutputQuantityPC" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Timestamp" Type="DateTime" Precision="3" Nullable="false" />
+          <NavigationProperty Name="CNCOperations" Relationship="Self.FK_CNCOperations_WorkOrders" FromRole="WorkOrders" ToRole="CNCOperations" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_WorkOrders_Products" FromRole="WorkOrders" ToRole="Products" />
+        </EntityType>
+        <Association Name="FK_CNCOperations_WorkOrders">
+          <End Role="WorkOrders" Type="Self.WorkOrder" Multiplicity="0..1" />
+          <End Role="CNCOperations" Type="Self.CNCOperation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkOrders">
+              <PropertyRef Name="WorkOrderID" />
+            </Principal>
+            <Dependent Role="CNCOperations">
+              <PropertyRef Name="WorkOrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Detailing_CNCOperations">
+          <End Role="CNCOperations" Type="Self.CNCOperation" Multiplicity="0..1" />
+          <End Role="Detailing" Type="Self.Detailing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CNCOperations">
+              <PropertyRef Name="CNCOperationID" />
+            </Principal>
+            <Dependent Role="Detailing">
+              <PropertyRef Name="CNCOperationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QualityControl_Detailing">
+          <End Role="Detailing" Type="Self.Detailing" Multiplicity="0..1" />
+          <End Role="QualityControl" Type="Self.QualityControl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Detailing">
+              <PropertyRef Name="DetailingID" />
+            </Principal>
+            <Dependent Role="QualityControl">
+              <PropertyRef Name="DetailingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkOrders_Products">
+          <End Role="Products" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="WorkOrders" Type="Self.WorkOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="WorkOrders">
+              <PropertyRef Name="PartNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FPYEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CNCOperations" EntityType="Self.CNCOperation" />
+          <EntitySet Name="Detailings" EntityType="Self.Detailing" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="QualityControls" EntityType="Self.QualityControl" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="WorkOrders" EntityType="Self.WorkOrder" />
+          <AssociationSet Name="FK_CNCOperations_WorkOrders" Association="Self.FK_CNCOperations_WorkOrders">
+            <End Role="WorkOrders" EntitySet="WorkOrders" />
+            <End Role="CNCOperations" EntitySet="CNCOperations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Detailing_CNCOperations" Association="Self.FK_Detailing_CNCOperations">
+            <End Role="CNCOperations" EntitySet="CNCOperations" />
+            <End Role="Detailing" EntitySet="Detailings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QualityControl_Detailing" Association="Self.FK_QualityControl_Detailing">
+            <End Role="Detailing" EntitySet="Detailings" />
+            <End Role="QualityControl" EntitySet="QualityControls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkOrders_Products" Association="Self.FK_WorkOrders_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="WorkOrders" EntitySet="WorkOrders" />
+          </AssociationSet>
+          <EntitySet Name="Roles" EntityType="FPYModel.Role" />
+          <EntitySet Name="Users" EntityType="FPYModel.User" />
+          <AssociationSet Name="FK_Users_Roles" Association="FPYModel.FK_Users_Roles">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Users" Relationship="FPYModel.FK_Users_Roles" FromRole="Role" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleID" Type="Int32" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Role" Relationship="FPYModel.FK_Users_Roles" FromRole="User" ToRole="Role" />
+        </EntityType>
+        <Association Name="FK_Users_Roles">
+          <End Type="FPYModel.Role" Role="Role" Multiplicity="0..1" />
+          <End Type="FPYModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FPYModelStoreContainer" CdmEntityContainer="FPYEntities">
+          <EntitySetMapping Name="CNCOperations">
+            <EntityTypeMapping TypeName="FPYModel.CNCOperation">
+              <MappingFragment StoreEntitySet="CNCOperations">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CNCOperationID" ColumnName="CNCOperationID" />
+                <ScalarProperty Name="WorkOrderID" ColumnName="WorkOrderID" />
+                <ScalarProperty Name="InputQuantityCNC" ColumnName="InputQuantityCNC" />
+                <ScalarProperty Name="OutputQuantityCNC" ColumnName="OutputQuantityCNC" />
+                <ScalarProperty Name="DMRCNC" ColumnName="DMRCNC" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Detailings">
+            <EntityTypeMapping TypeName="FPYModel.Detailing">
+              <MappingFragment StoreEntitySet="Detailing">
+                <ScalarProperty Name="DetailingID" ColumnName="DetailingID" />
+                <ScalarProperty Name="CNCOperationID" ColumnName="CNCOperationID" />
+                <ScalarProperty Name="InputQuantityDetail" ColumnName="InputQuantityDetail" />
+                <ScalarProperty Name="OutputQuantityDetail" ColumnName="OutputQuantityDetail" />
+                <ScalarProperty Name="DMRDetail" ColumnName="DMRDetail" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="FPYModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="PartNo" ColumnName="PartNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QualityControls">
+            <EntityTypeMapping TypeName="FPYModel.QualityControl">
+              <MappingFragment StoreEntitySet="QualityControl">
+                <ScalarProperty Name="QCOperationID" ColumnName="QCOperationID" />
+                <ScalarProperty Name="DetailingID" ColumnName="DetailingID" />
+                <ScalarProperty Name="InputQuantityQC" ColumnName="InputQuantityQC" />
+                <ScalarProperty Name="OutputQuantityQC" ColumnName="OutputQuantityQC" />
+                <ScalarProperty Name="DMRQC" ColumnName="DMRQC" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="FPYModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkOrders">
+            <EntityTypeMapping TypeName="FPYModel.WorkOrder">
+              <MappingFragment StoreEntitySet="WorkOrders">
+                <ScalarProperty Name="WorkOrderID" ColumnName="WorkOrderID" />
+                <ScalarProperty Name="PartNo" ColumnName="PartNo" />
+                <ScalarProperty Name="WorkOrderNo" ColumnName="WorkOrderNo" />
+                <ScalarProperty Name="OutputQuantityPC" ColumnName="OutputQuantityPC" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="FPYModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="FPYModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

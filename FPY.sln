@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FPY", "FPY\FPY.csproj", "{750B1299-FB17-4BAC-B72A-21B0CF50B18C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{750B1299-FB17-4BAC-B72A-21B0CF50B18C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{750B1299-FB17-4BAC-B72A-21B0CF50B18C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{750B1299-FB17-4BAC-B72A-21B0CF50B18C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{750B1299-FB17-4BAC-B72A-21B0CF50B18C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BBC37534-0F72-485F-8B42-EA98824499E5}
+	EndGlobalSection
+EndGlobal
