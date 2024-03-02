@@ -33,36 +33,112 @@ namespace FPY.Properties {
                 return ((string)(this["ManagementReportDBConnectionString"]));
             }
         }
-        //Username
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=HieuNghia\\SQLEXPRESS;Initial Catalog=FPY;Integrated Security=True;Enc" +
+            "rypt=True;TrustServerCertificate=True")]
+        public string FPYConnectionString {
+            get {
+                return ((string)(this["FPYConnectionString"]));
+            }
+        }
+        //Login_UserName
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("admin")]
-        public string Username
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Login_UserName
         {
             get
             {
-                return ((string)(this["Username"]));
+                return ((string)(this["Login_UserName"]));
             }
             set
             {
-                this["Username"] = value;
+                this["Login_UserName"] = value;
             }
         }
-        //Password
+
+        //Login_Password
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("admin")]
-        public string Password
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Login_Password
         {
             get
             {
-                return ((string)(this["Password"]));
+                return ((string)(this["Login_Password"]));
             }
             set
             {
-                this["Password"] = value;
+                this["Login_Password"] = value;
             }
         }
+        //Login_IsSaved
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Login_IsSaved
+        {
+            get
+            {
+                return ((bool)(this["Login_IsSaved"]));
+            }
+            set
+            {
+                this["Login_IsSaved"] = value;
+            }
+        }
+        //ConnectionString
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=HieuNghia\\SQLEXPRESS;Initial Catalog=FPY;Integrated Security=True;Enc" +
+                       "rypt=True;TrustServerCertificate=True")]
+        public string ConnectionString
+        {
+            get
+            {
+                return ((string)(this["ConnectionString"]));
+            }
+            set
+            {
+                this["ConnectionString"] = value;
+            }
+        }
+        //Database_ServerName
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("HieuNghia\\SQLEXPRESS")]
+        public string Database_ServerName
+        {
+            get
+            {
+                return ((string)(this["Database_ServerName"]));
+            }
+            set
+            {
+                this["Database_ServerName"] = value;
+            }
+        }
+        //Database_ServerCatalog
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("FPY")]
+        public string Database_ServerCatalog
+        {
+            get
+            {
+                return ((string)(this["Database_ServerCatalog"]));
+            }
+            set
+            {
+                this["Database_ServerCatalog"] = value;
+            }
+        }
+
 
     }
 }

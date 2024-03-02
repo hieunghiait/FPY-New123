@@ -13,10 +13,11 @@ namespace FPY
     {
         public frmCNC()
         {
-            InitializeComponent();
-            LoadData(); 
+            InitializeComponent(); 
             AddRowNumberColumn(); 
             this.dgvCNC.RowPostPaint += new DataGridViewRowPostPaintEventHandler(this.dgvCNC_RowPostPaint);
+            //set title 
+            this.Text = "FORM CNC";
         }
         public  void LoadData()
         {
@@ -37,7 +38,6 @@ namespace FPY
                                     cnc.OutputQuantityCNC,
                                     cnc.DMRCNC,
                                     cnc.Timestamp
-                                    
                                 }).ToList();
                     dgvCNC.DataSource = data;
                 }
@@ -60,9 +60,8 @@ namespace FPY
 
         private void frmCNC_Load(object sender, EventArgs e)
         {
-            
+            LoadData();
         }
-        //Hàm tìm kiếm
         private void btnSearch_Click(object sender, EventArgs e)
         {
             using (var db = new FPYEntities())
@@ -93,61 +92,68 @@ namespace FPY
 
         private void btnCapNhat_Click(object sender, EventArgs e)
         {
-            using (var db = new FPYEntities())
+            try
             {
-                try
+                using (var db = new FPYEntities())
                 {
-                    var workOrderNo = txtBoxWO.Text;
-                    var cncData = db.CNCOperations.FirstOrDefault(c => c.WorkOrder.WorkOrderNo == workOrderNo);
-                    if (cncData != null)
+                    try
                     {
-                        cncData.OutputQuantityCNC = int.Parse(textBoxOutputQuantity.Text);
-                        cncData.DMRCNC = int.Parse(textBoxDMR.Text);
-
-                        // Tìm bản ghi Detailing hiện có liên quan
-                        var detailingData = db.Detailings.FirstOrDefault(d => d.CNCOperationID == cncData.CNCOperationID);
-                        if (detailingData != null)
+                        var workOrderNo = txtBoxWO.Text;
+                        var cncData = db.CNCOperations.FirstOrDefault(c => c.WorkOrder.WorkOrderNo == workOrderNo);
+                        if (cncData != null)
                         {
-                            // Cập nhật giá trị hiện có nếu tìm thấy
-                            detailingData.InputQuantityDetail = cncData.OutputQuantityCNC;
-                            detailingData.Timestamp = DateTime.Now; // Cập nhật thời gian nếu cần
-                                                                    // Cập nhật thêm thông tin nếu cần
-                        }
-                        // Thêm vào bản ghi mới nếu không tìm thấy bản ghi Detailing tương ứng
-                        else
-                        {
-                            var newDetailing = new Detailing()
+                            cncData.OutputQuantityCNC = int.Parse(textBoxOutputQuantity.Text); // Cập nhật giá trị Output Quantity
+                            cncData.DMRCNC = int.Parse(textBoxDMR.Text);
+                            cncData.Timestamp = DateTime.Now; //Cập nhật thời gian 
+                                                              // Tìm bản ghi Detailing hiện có liên quan
+                            var detailingData = db.Detailings.FirstOrDefault(d => d.CNCOperationID == cncData.CNCOperationID);
+                            //Nếu bảng Detailing tồn tại thì cập nhật giá trị hiện có
+                            if (detailingData != null)
                             {
-                                InputQuantityDetail = cncData.OutputQuantityCNC,
-                                CNCOperationID = cncData.CNCOperationID,
-                                Timestamp = DateTime.Now
-                            };
-                            db.Detailings.Add(newDetailing);
-                        }
+                                // Cập nhật giá trị hiện có nếu tìm thấy
+                                detailingData.InputQuantityDetail = cncData.OutputQuantityCNC;
+                                detailingData.Timestamp = DateTime.Now; // Cập nhật thời gian nếu cần
+                            }
+                            // Thêm vào bản ghi mới nếu không tìm thấy bản ghi Detailing tương ứng
+                            else
+                            {
+                                var newDetailing = new Detailing()
+                                {
+                                    InputQuantityDetail = cncData.OutputQuantityCNC,
+                                    CNCOperationID = cncData.CNCOperationID,
+                                    Timestamp = DateTime.Now
+                                };
+                                db.Detailings.Add(newDetailing);
+                            }
 
-                        if (db.SaveChanges() > 0)
-                        {
-                            MessageBox.Show("Updated successfully");
-                            LoadData();
+                            if (db.SaveChanges() > 0)
+                            {
+                                MessageBox.Show("Cập nhật dữ liệu thành công");
+                                LoadData();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Cập nhật dữ liệu thất bại");
+                            }
+
                         }
                         else
                         {
-                            MessageBox.Show("No changes were made to the record.");
+                            MessageBox.Show("Work order not found");
                         }
                     }
-                    else
+                    catch (FormatException ex)
                     {
-                        MessageBox.Show("Work order not found");
+                        MessageBox.Show("Please enter valid numbers for Output Quantity and DMR.");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("An error occurred: " + ex.Message);
                     }
                 }
-                catch (FormatException fe)
-                {
-                    MessageBox.Show("Please enter valid numbers for Output Quantity and DMR.");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("An error occurred: " + ex.Message);
-                }
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -229,6 +235,50 @@ namespace FPY
                     textBoxDMR.Text = dgvCNC.Rows[e.RowIndex].Cells["DMRCNC"].FormattedValue.ToString();
                 }
             }catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            frmMain main = new frmMain();
+            main.ShowDialog();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var db = new FPYEntities())
+                {
+                    var workOrderNo = txtBoxWO.Text;
+                    var cncData = db.CNCOperations.FirstOrDefault(c => c.WorkOrder.WorkOrderNo == workOrderNo);
+                    if (cncData != null)
+                    {
+                        db.CNCOperations.Remove(cncData);
+                        var detailingData = db.Detailings.FirstOrDefault(d => d.CNCOperationID == cncData.CNCOperationID);
+                        if (detailingData != null)
+                        {
+                            db.Detailings.Remove(detailingData);
+                        }
+                        if (db.SaveChanges() > 0)
+                        {
+                            MessageBox.Show("Xóa dữ liệu thành công");
+                            LoadData();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Xóa dữ liệu thất bại");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Không tìm thấy work order");
+                    }
+                }
+            }catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
