@@ -22,7 +22,7 @@ namespace FPY
             InitializeComponent();
             this.Text = "PC FORM"; 
         }
-
+        #region Function 
         //hàm check WorkOrderNo có tồn tại trogn database không 
         public bool CheckWorkOrderNo(string workOrderNo)
         {
@@ -36,6 +36,14 @@ namespace FPY
                 return false;
             }
         }
+        //clear input data 
+        public void ClearData()
+        {
+            txtPartNo.Text = "";
+            txtWO.Text = "";
+            txtOutputQty.Text = "";
+            txtDescription.Text = "";
+        }
         //create PartNo
         public void CreatePartNo(string PartNo)
         {
@@ -43,7 +51,9 @@ namespace FPY
             {
                 using (var db = new FPYEntities())
                 {
+                    //Khởi tạo đối tượng Product 
                     var partNo = new Product();
+
                     partNo.PartNo = PartNo;
                     db.Products.Add(partNo);
                     db.SaveChanges();
@@ -53,32 +63,41 @@ namespace FPY
                 MessageBox.Show(ex.Message);
             }
         }
+        #endregion
+        //Sự kiện cập nhật 
         private void btnSave_Click(object sender, EventArgs e)
         {
             try
             {
                 using (var db = new FPYEntities())
                 {
-                   
-                    var partNo = db.Products.FirstOrDefault(p => p.PartNo == txtPartNo.Text);
-                    if (partNo == null)
+                    var partNo = txtPartNo.Text.Trim(); //sanitize input
+                    var workOrderNo = txtWO.Text.Trim(); //sanitize input
+                    var outputQty = txtOutputQty.Text.Trim(); //sanitize input
+                    var description = txtDescription.Text.Trim(); //sanitize input
+
+                   // Kiểm tra partNo đã tồn tại trong database chưa 
+                    var findPartNo = db.Products.FirstOrDefault(p => p.PartNo == partNo);
+                    //Nếu chưa tồn tại trong database 
+                    if (findPartNo == null) // 
                     {
-                        CreatePartNo(txtPartNo.Text);
+                        //Thực hiện tạo mới PartNo
+                        CreatePartNo(partNo);
                         // After creating the new PartNo, fetch it from the database to get its ID.
-                        partNo = db.Products.FirstOrDefault(p => p.PartNo == txtPartNo.Text);
+                        findPartNo = db.Products.FirstOrDefault(p => p.PartNo == partNo);
                     }
                     var workOrder = new WorkOrder();
                     if(partNo != null)
                     {
-                        workOrder.PartNo = partNo.ProductID;
+                        workOrder.PartNo = findPartNo.ProductID;
                     }else
                     {
                         MessageBox.Show("PartNo creation failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
-                    workOrder.WorkOrderNo = txtWO.Text;
-                    workOrder.OutputQuantityPC = Convert.ToInt32(txtOutputQty.Text);
-                    workOrder.Description = txtDescription.Text;
+                    workOrder.WorkOrderNo = workOrderNo;
+                    workOrder.OutputQuantityPC = Convert.ToInt32(outputQty);
+                    workOrder.Description = description;
                     //Cập nhật thời gian 
                     workOrder.Timestamp = DateTime.Now;
 
@@ -120,9 +139,20 @@ namespace FPY
 
            
         }
-        
+        private void BindFirstRowToInputs()
+        {
+            if (dgvPC.Rows.Count > 0)
+            {
+                var row = dgvPC.Rows[0];
+                txtPartNo.Text = Convert.ToString(row.Cells["PartNo"].Value);
+                txtWO.Text = Convert.ToString(row.Cells["WorkOrderNo"].Value);
+                txtOutputQty.Text = Convert.ToString(row.Cells["OutputQuantityPC"].Value);
+                txtDescription.Text = Convert.ToString(row.Cells["Description"].Value);
+            }
+        }
         private void frmPC_Load(object sender, EventArgs e)
         {
+            //Load data
             LoadData();
             LoadDataComboBox();
         }
@@ -146,21 +176,22 @@ namespace FPY
                                   }).ToList();
                     dgvPC.DataSource = listPC;
                 }
+                //select phần tử đầu tiên 
+                dgvPC.Rows[0].Selected = true;
+                BindFirstRowToInputs();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
-        public void LoadDataWorkOrder()
-        {
-          
-        }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
             try
             {
+                var workOrderNo = txtWO.Text.Trim(); //sanitize input
+                var partNo = txtPartNo.Text.Trim(); //sanitize input
                 using (var db = new FPYEntities())
                 {
                     var workOrder = db.WorkOrders.FirstOrDefault(p => p.WorkOrderNo == txtWO.Text);
@@ -169,10 +200,11 @@ namespace FPY
                         db.WorkOrders.Remove(workOrder);
                         if (db.SaveChanges() > 0)
                         {
-                           DialogResult result = MessageBox.Show("Are you sure you want to delete this data?", "Delete", MessageBoxButtons.OKCancel);
+                           DialogResult result = MessageBox.Show("Are you sure you want to delete this data ? " + workOrderNo + " and " + partNo, "Delete", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                             if (result == DialogResult.OK)
                             {
                                 MessageBox.Show("Data has been deleted successfully");
+                                LoadData(); 
                             }
                             else if (result == DialogResult.Cancel)
                             {
@@ -197,10 +229,6 @@ namespace FPY
             }
         }
         
-        public void LoadDataWO()
-        {
-            
-        }
         private void txtPartNo_TextChanged(object sender, EventArgs e)
         {
            
@@ -275,10 +303,16 @@ namespace FPY
 
         public void LoadDataComboBox()
         {
-            using (var context = new FPYEntities())
+            try
             {
-                var partNos = context.Products.Select(p => p.PartNo).ToList();
-                txtPartNo.DataSource = partNos;
+                using (var context = new FPYEntities())
+                {
+                    var partNos = context.Products.Select(p => p.PartNo).ToList();
+                    txtPartNo.DataSource = partNos;
+                }
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
         private void txtPartNo_TextChanged_1(object sender, EventArgs e)
@@ -295,28 +329,40 @@ namespace FPY
         {
             try
             {
-                var workOrderNo = txtWO.Text; 
+                var workOrderNo = txtWO.Text.Trim(); //sanitize input 
+                var partNo = txtPartNo.Text.Trim(); //sanitize input
+                var inputPartNo = txtPartNo.Text.Trim(); //sanitize input
+                var outputQty = txtOutputQty.Text.Trim(); //sanitize input
+
                 using (var db = new FPYEntities())
                 {
                     var foundWorkOrder = db.WorkOrders.FirstOrDefault(p => p.WorkOrderNo == workOrderNo);
-                    if (foundWorkOrder != null)
+                    if (foundWorkOrder != null) // Nếu tìm thấy workOrderNo trong database 
                     {
-                        var partNo = db.Products.FirstOrDefault(p => p.PartNo == txtPartNo.Text);
+                        var foundPartNo = db.Products.FirstOrDefault(p => p.PartNo == partNo);
                         if(partNo != null)
                         {
-                            foundWorkOrder.PartNo = partNo.ProductID;
-                            foundWorkOrder.WorkOrderNo = txtWO.Text;
-                            foundWorkOrder.OutputQuantityPC = Convert.ToInt32(txtOutputQty.Text);
+                            foundWorkOrder.PartNo = foundPartNo.ProductID;
+                            foundWorkOrder.WorkOrderNo = workOrderNo;
+                            foundWorkOrder.OutputQuantityPC = Convert.ToInt32(outputQty);
                             foundWorkOrder.Description = txtDescription.Text;
                             foundWorkOrder.Timestamp = DateTime.Now;
-                            if (db.SaveChanges() > 0)
+                            DialogResult result = MessageBox.Show("Are you sure you want to update this data?", "Update", MessageBoxButtons.OKCancel);
+                            if (result == DialogResult.OK)
                             {
-                                MessageBox.Show("Data has been updated successfully");
-                                LoadData();
+                                if (db.SaveChanges() > 0)
+                                {
+                                    MessageBox.Show("Data has been updated successfully", "Information",  MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    LoadData();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Data has not been updated", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
                             }
-                            else
+                            else if (result == DialogResult.Cancel)
                             {
-                                MessageBox.Show("Data has not been updated");
+                                return;
                             }
                         }else
                         {
@@ -368,7 +414,7 @@ namespace FPY
             {
                 LoadData(); 
                 //Show message box
-                MessageBox.Show("Data has been reloaded successfully");
+                MessageBox.Show("Data has been reloaded successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
@@ -377,10 +423,7 @@ namespace FPY
 
         private void btnClearData_Click(object sender, EventArgs e)
         {
-            txtPartNo.Text = "";
-            txtWO.Text = "";
-            txtOutputQty.Text = "";
-            txtDescription.Text = "";
+            ClearData(); 
         }
 
         private void btnExport_Click(object sender, EventArgs e)
@@ -423,6 +466,17 @@ namespace FPY
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void txtOutputQty_TextChanged(object sender, EventArgs e)
+        {
+            //Kiểm tra input có phải là số không
+            //"^[0-9]*$" 
+            if (!System.Text.RegularExpressions.Regex.IsMatch(txtOutputQty.Text, "^-?[0-9]*$"))
+            {
+                MessageBox.Show("Please enter only numbers", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtOutputQty.Text = string.Empty;
             }
         }
     }
