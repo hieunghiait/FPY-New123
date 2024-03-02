@@ -58,7 +58,7 @@
             this.labelPartNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelPartNum.Location = new System.Drawing.Point(32, 31);
             this.labelPartNum.Name = "labelPartNum";
-            this.labelPartNum.Size = new System.Drawing.Size(70, 17);
+            this.labelPartNum.Size = new System.Drawing.Size(83, 20);
             this.labelPartNum.TabIndex = 0;
             this.labelPartNum.Text = "PART NO";
             // 
@@ -68,7 +68,7 @@
             this.labelWO.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelWO.Location = new System.Drawing.Point(32, 82);
             this.labelWO.Name = "labelWO";
-            this.labelWO.Size = new System.Drawing.Size(32, 17);
+            this.labelWO.Size = new System.Drawing.Size(38, 20);
             this.labelWO.TabIndex = 1;
             this.labelWO.Text = "WO";
             // 
@@ -79,7 +79,7 @@
             this.btnCapNhat.Location = new System.Drawing.Point(188, 203);
             this.btnCapNhat.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCapNhat.Name = "btnCapNhat";
-            this.btnCapNhat.Size = new System.Drawing.Size(91, 38);
+            this.btnCapNhat.Size = new System.Drawing.Size(105, 43);
             this.btnCapNhat.TabIndex = 2;
             this.btnCapNhat.Text = "UPDATE";
             this.btnCapNhat.UseVisualStyleBackColor = false;
@@ -89,10 +89,10 @@
             // 
             this.btnSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearch.Location = new System.Drawing.Point(91, 203);
+            this.btnSearch.Location = new System.Drawing.Point(71, 203);
             this.btnSearch.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(87, 38);
+            this.btnSearch.Size = new System.Drawing.Size(101, 43);
             this.btnSearch.TabIndex = 3;
             this.btnSearch.Text = "SEARCH";
             this.btnSearch.UseVisualStyleBackColor = false;
@@ -105,7 +105,7 @@
             this.textBoxPartNum.Location = new System.Drawing.Point(132, 27);
             this.textBoxPartNum.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxPartNum.Name = "textBoxPartNum";
-            this.textBoxPartNum.Size = new System.Drawing.Size(153, 24);
+            this.textBoxPartNum.Size = new System.Drawing.Size(153, 28);
             this.textBoxPartNum.TabIndex = 4;
             // 
             // txtBoxWO
@@ -115,7 +115,7 @@
             this.txtBoxWO.Location = new System.Drawing.Point(125, 82);
             this.txtBoxWO.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtBoxWO.Name = "txtBoxWO";
-            this.txtBoxWO.Size = new System.Drawing.Size(127, 24);
+            this.txtBoxWO.Size = new System.Drawing.Size(127, 28);
             this.txtBoxWO.TabIndex = 5;
             this.txtBoxWO.TextChanged += new System.EventHandler(this.txtBoxWO_TextChanged);
             // 
@@ -141,7 +141,7 @@
             this.dgvCNC.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
             this.dgvCNC.ColumnHeadersHeight = 29;
             this.dgvCNC.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.dgvCNC.Location = new System.Drawing.Point(507, 39);
+            this.dgvCNC.Location = new System.Drawing.Point(574, 39);
             this.dgvCNC.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dgvCNC.Name = "dgvCNC";
             this.dgvCNC.ReadOnly = true;
@@ -156,9 +156,9 @@
             // 
             this.labelInputQuantity.AutoSize = true;
             this.labelInputQuantity.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelInputQuantity.Location = new System.Drawing.Point(25, 42);
+            this.labelInputQuantity.Location = new System.Drawing.Point(17, 42);
             this.labelInputQuantity.Name = "labelInputQuantity";
-            this.labelInputQuantity.Size = new System.Drawing.Size(82, 17);
+            this.labelInputQuantity.Size = new System.Drawing.Size(96, 20);
             this.labelInputQuantity.TabIndex = 8;
             this.labelInputQuantity.Text = "INPUT QTY";
             // 
@@ -168,7 +168,7 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(17, 84);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(99, 17);
+            this.label2.Size = new System.Drawing.Size(115, 20);
             this.label2.TabIndex = 9;
             this.label2.Text = "OUTPUT QTY";
             // 
@@ -178,7 +178,7 @@
             this.labelDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelDescription.Location = new System.Drawing.Point(17, 178);
             this.labelDescription.Name = "labelDescription";
-            this.labelDescription.Size = new System.Drawing.Size(100, 17);
+            this.labelDescription.Size = new System.Drawing.Size(122, 20);
             this.labelDescription.TabIndex = 12;
             this.labelDescription.Text = "DESCRIPTION";
             // 
@@ -186,9 +186,9 @@
             // 
             this.labelDMR.AutoSize = true;
             this.labelDMR.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDMR.Location = new System.Drawing.Point(17, 298);
+            this.labelDMR.Location = new System.Drawing.Point(17, 286);
             this.labelDMR.Name = "labelDMR";
-            this.labelDMR.Size = new System.Drawing.Size(39, 17);
+            this.labelDMR.Size = new System.Drawing.Size(48, 20);
             this.labelDMR.TabIndex = 13;
             this.labelDMR.Text = "DMR";
             // 
@@ -205,16 +205,16 @@
             this.panel2.Location = new System.Drawing.Point(40, 265);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(441, 353);
+            this.panel2.Size = new System.Drawing.Size(419, 353);
             this.panel2.TabIndex = 17;
             // 
             // textBoxOutputQuantity
             // 
             this.textBoxOutputQuantity.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxOutputQuantity.Location = new System.Drawing.Point(119, 81);
+            this.textBoxOutputQuantity.Location = new System.Drawing.Point(141, 79);
             this.textBoxOutputQuantity.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxOutputQuantity.Name = "textBoxOutputQuantity";
-            this.textBoxOutputQuantity.Size = new System.Drawing.Size(172, 24);
+            this.textBoxOutputQuantity.Size = new System.Drawing.Size(172, 28);
             this.textBoxOutputQuantity.TabIndex = 18;
             this.textBoxOutputQuantity.TextChanged += new System.EventHandler(this.textBoxOutputQuantity_TextChanged);
             this.textBoxOutputQuantity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxOutputQuantity_KeyPress);
@@ -222,21 +222,21 @@
             // textBoxDMR
             // 
             this.textBoxDMR.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F);
-            this.textBoxDMR.Location = new System.Drawing.Point(119, 291);
+            this.textBoxDMR.Location = new System.Drawing.Point(141, 281);
             this.textBoxDMR.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxDMR.Name = "textBoxDMR";
-            this.textBoxDMR.Size = new System.Drawing.Size(96, 24);
+            this.textBoxDMR.Size = new System.Drawing.Size(96, 28);
             this.textBoxDMR.TabIndex = 18;
             this.textBoxDMR.TextChanged += new System.EventHandler(this.textBoxDMR_TextChanged);
             // 
             // txtBoxInputQuantity
             // 
             this.txtBoxInputQuantity.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBoxInputQuantity.Location = new System.Drawing.Point(117, 39);
+            this.txtBoxInputQuantity.Location = new System.Drawing.Point(148, 42);
             this.txtBoxInputQuantity.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtBoxInputQuantity.Name = "txtBoxInputQuantity";
             this.txtBoxInputQuantity.ReadOnly = true;
-            this.txtBoxInputQuantity.Size = new System.Drawing.Size(136, 24);
+            this.txtBoxInputQuantity.Size = new System.Drawing.Size(136, 28);
             this.txtBoxInputQuantity.TabIndex = 18;
             this.txtBoxInputQuantity.TextChanged += new System.EventHandler(this.txtBoxInputQuantity_TextChanged);
             this.txtBoxInputQuantity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBoxInputQuantity_KeyPress);
@@ -245,7 +245,7 @@
             // 
             this.textBoxDescription.AcceptsTab = true;
             this.textBoxDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxDescription.Location = new System.Drawing.Point(119, 143);
+            this.textBoxDescription.Location = new System.Drawing.Point(143, 140);
             this.textBoxDescription.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxDescription.Name = "textBoxDescription";
             this.textBoxDescription.Size = new System.Drawing.Size(249, 118);
@@ -255,7 +255,7 @@
             // btnBack
             // 
             this.btnBack.Location = new System.Drawing.Point(1331, 660);
-            this.btnBack.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBack.Margin = new System.Windows.Forms.Padding(4);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(94, 35);
             this.btnBack.TabIndex = 18;
@@ -267,10 +267,10 @@
             // 
             this.btnDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.btnDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDelete.Location = new System.Drawing.Point(294, 203);
+            this.btnDelete.Location = new System.Drawing.Point(306, 203);
             this.btnDelete.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(88, 38);
+            this.btnDelete.Size = new System.Drawing.Size(102, 43);
             this.btnDelete.TabIndex = 19;
             this.btnDelete.Text = "DELETE";
             this.btnDelete.UseVisualStyleBackColor = false;
