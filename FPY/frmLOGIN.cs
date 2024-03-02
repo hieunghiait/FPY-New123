@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FPY.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +9,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace FPY
 {
@@ -48,32 +50,42 @@ namespace FPY
                 return false;
             }
         }
-        private string hashPassword(string password, string salt)
+        public void checkHistoryLogin(string username, string password)
         {
-            using (var sha256 = SHA256.Create())
+            if (chkSave.Checked)
             {
-                var saltedPassword = string.Concat(password, salt);
-                var saltedPasswordBytes = Encoding.UTF8.GetBytes(saltedPassword);
-                var hashBytes = sha256.ComputeHash(saltedPasswordBytes);
-
-                return Convert.ToBase64String(hashBytes);
+                //Lưu thông tin đăng nhập
+                Settings.Default.Login_UserName = username;
+                Settings.Default.Login_Password = password;
+                Settings.Default.Save();
+            }
+            else
+            {
+                //Xóa thông tin đăng nhập đã lưu
+                Settings.Default.Login_UserName = string.Empty;
+                Settings.Default.Login_Password = string.Empty;
+                Settings.Default.Save();
             }
         }
         #endregion
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            string userName = txtUsername.Text;
-            string passWord = txtPassword.Text; 
-            if(isValidLogin(userName, passWord))
+            string username = txtUsername.Text;
+            string password = txtPassword.Text; 
+            if(isValidLogin(username, password))
             {
-                MessageBox.Show("Đăng nhập thành công");
+                ///Kiểm tra xem người dùng có chọn lưu thông tin đăng nhập không
+                checkHistoryLogin(username, password);
+                MessageBox.Show("Đăng nhập thành công!");
+                //Ẩn form hiện tại và hiển thị form chính
                 this.Hide();
                 frmMain frmMain = new frmMain(); 
                 frmMain.Show();
             }
             else
             {
-                MessageBox.Show("Đăng nhập thất bại");
+                lblNotification.Text = "Tên đăng nhập hoặc mật khẩu không đúng!";
+                System.Media.SystemSounds.Exclamation.Play();
             }
         }
 
@@ -82,6 +94,34 @@ namespace FPY
             this.Hide();
             frmREGISTER frmRegister = new frmREGISTER();
             frmRegister.Show();
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            DialogResult dialog = MessageBox.Show("Bạn có muốn thoát không?", "Thoát", MessageBoxButtons.YesNo);
+            if (dialog == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+        }
+
+        private void chkSave_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Default.Login_IsSaved = chkSave.Checked;
+            Settings.Default.Save();
+        }
+
+        private void frmLOGIN_Load(object sender, EventArgs e)
+        {
+            chkSave.Checked = Settings.Default.Login_IsSaved;
+            if (chkSave.Checked)
+            {
+
+                txtUsername.Text = Settings.Default.Login_UserName;
+                txtPassword.Text = Settings.Default.Login_Password;
+            }
+
+            lblNotification.Text = string.Empty;
         }
     }
 }

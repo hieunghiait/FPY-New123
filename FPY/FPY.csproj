@@ -13,7 +13,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>publish\</PublishUrl>
+    <PublishUrl>C:\Users\Le Hieu Nghia\Desktop\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -23,7 +23,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationRevision>5</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -73,6 +73,28 @@
     <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1001\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1620.0\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1620.0\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1620.0\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1620.0\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1620.0\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -112,6 +134,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FPY.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Reports\FPYDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FPYDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="frmCNC.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,6 +150,19 @@
     </Compile>
     <Compile Include="frmDETAIL.Designer.cs">
       <DependentUpon>frmDETAIL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmQC.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmQC.Designer.cs">
+      <DependentUpon>frmQC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalSettings.cs" />
+    <Compile Include="Authentication\frmDoiMatKhau.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Authentication\frmDoiMatKhau.Designer.cs">
+      <DependentUpon>frmDoiMatKhau.cs</DependentUpon>
     </Compile>
     <Compile Include="frmKetNoi.cs">
       <SubType>Form</SubType>
@@ -160,6 +200,12 @@
     <Compile Include="frmREGISTER.Designer.cs">
       <DependentUpon>frmREGISTER.cs</DependentUpon>
     </Compile>
+    <Compile Include="Popups\frmExport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Popups\frmExport.Designer.cs">
+      <DependentUpon>frmExport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Product.cs">
       <DependentUpon>FPY.tt</DependentUpon>
     </Compile>
@@ -168,9 +214,18 @@
     <Compile Include="QualityControl.cs">
       <DependentUpon>FPY.tt</DependentUpon>
     </Compile>
+    <Compile Include="Reports\frmReport.cs">
+      <SubType>Form</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Reports\frmReport.Designer.cs">
+      <DependentUpon>frmReport.cs</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Role.cs">
       <DependentUpon>FPY.tt</DependentUpon>
     </Compile>
+    <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="sysdiagram.cs">
       <DependentUpon>FPY.tt</DependentUpon>
     </Compile>
@@ -201,8 +256,14 @@
     <EmbeddedResource Include="frmProduct.resx">
       <DependentUpon>frmProduct.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmQC.resx">
+      <DependentUpon>frmQC.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmREGISTER.resx">
       <DependentUpon>frmREGISTER.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Popups\frmExport.resx">
+      <DependentUpon>frmExport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -212,7 +273,18 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Authentication\frmDoiMatKhau.resx">
+      <DependentUpon>frmDoiMatKhau.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmReport.resx">
+      <DependentUpon>frmReport.cs</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptPC.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EntityDeploy Include="FPY.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>FPY.Designer.cs</LastGenOutput>
@@ -220,7 +292,17 @@
     <None Include="FPY.edmx.diagram">
       <DependentUpon>FPY.edmx</DependentUpon>
     </None>
-    <None Include="FPY_TemporaryKey.pfx" />
+    <None Include="Reports\FPYDataSet.xsc">
+      <DependentUpon>FPYDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Reports\FPYDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>FPYDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Reports\FPYDataSet.xss">
+      <DependentUpon>FPYDataSet.xsd</DependentUpon>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -250,6 +332,68 @@
       <DependentUpon>FPY.edmx</DependentUpon>
       <LastGenOutput>FPY.cs</LastGenOutput>
     </Content>
+    <Content Include="Resources\additem_16x16.png" />
+    <Content Include="Resources\add_16x16.png" />
+    <Content Include="Resources\cancel_16x16.png" />
+    <Content Include="Resources\deletelist_16x16.png" />
+    <Content Include="Resources\ec-logo.png" />
+    <Content Include="Resources\edit_16x16.png" />
+    <Content Include="Resources\icon_BangDiem_64dp.png" />
+    <Content Include="Resources\icon_BaoCaoHocVienTheoThang_32dp.png" />
+    <Content Include="Resources\icon_CaiDat_32dp.png" />
+    <Content Include="Resources\icon_Close_9dp.png" />
+    <Content Include="Resources\icon_CSDL_32dp.png" />
+    <Content Include="Resources\icon_CSDL_64dp.png" />
+    <Content Include="Resources\icon_DangNhap_32dp.png" />
+    <Content Include="Resources\icon_DangNhap_64dp.png" />
+    <Content Include="Resources\icon_GiangVien_32dp.png" />
+    <Content Include="Resources\icon_GiangVien_64dp.png" />
+    <Content Include="Resources\icon_HocVien_64dp.png" />
+    <Content Include="Resources\icon_KhoaHoc_32dp.png" />
+    <Content Include="Resources\icon_LapPhieuGhiDanh_32dp.png" />
+    <Content Include="Resources\icon_LopHoc_64dp.png" />
+    <Content Include="Resources\icon_Lop_32dp.png" />
+    <Content Include="Resources\icon_MatKhau_32dp.png" />
+    <Content Include="Resources\icon_MatKhau_64dp.png" />
+    <Content Include="Resources\icon_NguoiDung_32dp.png" />
+    <Content Include="Resources\icon_NhanVien_32dp.png" />
+    <Content Include="Resources\icon_NhanVien_64dp.png" />
+    <Content Include="Resources\icon_QuanLyDiem_32dp.png" />
+    <Content Include="Resources\icon_QuanLyHocVien_32dp.png" />
+    <Content Include="Resources\icon_Server_16dp.png" />
+    <Content Include="Resources\icon_ThayDoiThongTin_32dp.png" />
+    <Content Include="Resources\icon_ThongKeHocPhi_32dp.png" />
+    <Content Include="Resources\icon_ThongTin_32dp.png" />
+    <Content Include="Resources\icon_TiepNhanHocVien_32dp.png" />
+    <Content Include="Resources\icon_Time_16dp.png" />
+    <Content Include="Resources\icon_TrangMoDau_32dp.png" />
+    <Content Include="Resources\icon_TroGiup_32dp.png" />
+    <Content Include="Resources\icon_TroGiup_64dp.png" />
+    <Content Include="Resources\icon_TrungTam_32dp.png" />
+    <Content Include="Resources\icon_TrungTam_64dp.png" />
+    <Content Include="Resources\icon_XemDiem_32dp.png" />
+    <Content Include="Resources\icon_XepLop_32dp.png" />
+    <Content Include="Resources\preview_16x16.png" />
+    <Content Include="Resources\print_16x16.png" />
+    <Content Include="Resources\refresh2_16x16.png" />
+    <Content Include="Resources\refresh_16x16.png" />
+    <Content Include="Resources\remove_16x16.png" />
+    <Content Include="Resources\save_16x16.png" />
+    <Content Include="Resources\show_16x16.png" />
+    <Content Include="Resources\zoom_16x16.png" />
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">
@@ -262,6 +406,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

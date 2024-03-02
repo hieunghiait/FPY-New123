@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FPY.Reports;
+using Microsoft.Reporting.WinForms;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,6 +20,7 @@ namespace FPY
         public frmPC()
         {
             InitializeComponent();
+            this.Text = "PC FORM"; 
         }
 
         //hàm check WorkOrderNo có tồn tại trogn database không 
@@ -33,25 +36,50 @@ namespace FPY
                 return false;
             }
         }
-      
+        //create PartNo
+        public void CreatePartNo(string PartNo)
+        {
+           try
+            {
+                using (var db = new FPYEntities())
+                {
+                    var partNo = new Product();
+                    partNo.PartNo = PartNo;
+                    db.Products.Add(partNo);
+                    db.SaveChanges();
+                }
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         private void btnSave_Click(object sender, EventArgs e)
         {
             try
             {
                 using (var db = new FPYEntities())
                 {
-                    var workOrder = new WorkOrder();
+                   
                     var partNo = db.Products.FirstOrDefault(p => p.PartNo == txtPartNo.Text);
                     if (partNo == null)
                     {
-                        MessageBox.Show("PartNo not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        CreatePartNo(txtPartNo.Text);
+                        // After creating the new PartNo, fetch it from the database to get its ID.
+                        partNo = db.Products.FirstOrDefault(p => p.PartNo == txtPartNo.Text);
+                    }
+                    var workOrder = new WorkOrder();
+                    if(partNo != null)
+                    {
+                        workOrder.PartNo = partNo.ProductID;
+                    }else
+                    {
+                        MessageBox.Show("PartNo creation failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
-
-                    workOrder.PartNo = partNo.ProductID;
                     workOrder.WorkOrderNo = txtWO.Text;
                     workOrder.OutputQuantityPC = Convert.ToInt32(txtOutputQty.Text);
                     workOrder.Description = txtDescription.Text;
+                    //Cập nhật thời gian 
                     workOrder.Timestamp = DateTime.Now;
 
                     if (CheckWorkOrderNo(workOrder.WorkOrderNo))
@@ -64,6 +92,7 @@ namespace FPY
 
                     // Tạo bản ghi cho CNC với điều kiện như đề cập.
                     var cncRecord = new CNCOperation();
+                    //input quantity của CNC sẽ bằng với output quantity của PC
                     cncRecord.InputQuantityCNC = workOrder.OutputQuantityPC;
                     cncRecord.WorkOrderID = workOrder.WorkOrderID;
                     // Set other necessary properties for CNC record
@@ -89,25 +118,7 @@ namespace FPY
         private void dgvPC_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
-            try
-            {
-                // Check if the click is on a valid row (not on the header)
-                if (e.RowIndex >= 0 && dgvPC.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
-                {
-                    // Select the current row
-                    dgvPC.CurrentRow.Selected = true;
-
-                    // Retrieve the data from each cell and set it to the text boxes
-                    txtWO.Text = dgvPC.Rows[e.RowIndex].Cells["WorkOrderNo"].Value.ToString();
-                    txtPartNo.Text = dgvPC.Rows[e.RowIndex].Cells["PartNo"].Value.ToString();
-                    txtOutputQty.Text = dgvPC.Rows[e.RowIndex].Cells["OutputQuantityPC"].Value.ToString();
-                    txtDescription.Text = dgvPC.Rows[e.RowIndex].Cells["Description"].Value.ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+           
         }
         
         private void frmPC_Load(object sender, EventArgs e)
@@ -126,7 +137,7 @@ namespace FPY
                                   join pn in db.Products on wo.PartNo equals pn.ProductID // ID là khóa chính trong bảng PartNo
                                   select new
                                   {
-                                      PartNo = pn.PartNo,
+                                      pn.PartNo,
                                       wo.WorkOrderNo,
                                       wo.OutputQuantityPC,
                                       wo.Description,
@@ -212,32 +223,44 @@ namespace FPY
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            //search theo WorkOrderNo 
             try
             {
                 using (var db = new FPYEntities())
                 {
-                    var search = txtWO.Text;
-                    var listPC = (from wo in db.WorkOrders 
-                                  join pn in db.Products on wo.PartNo
-                                  equals pn.ProductID 
-                                  where wo.WorkOrderNo.Contains(search)
-                                                                                                                                     select new
-                                                                     {
-                                      PartNo = pn.PartNo,
-                                      wo.WorkOrderNo,
-                                      wo.OutputQuantityPC,
-                                      wo.Description,
-                                      wo.Timestamp,
-                                  }).ToList();
-                    dgvPC.DataSource = listPC;
+                    var searchWO = txtWO.Text.Trim();
+                    var searchPartNo = txtPartNo.Text.Trim();
+
+                    // Using method syntax for LINQ query
+                    var listPC = db.WorkOrders
+                        .Join(db.Products, wo => wo.PartNo, pn => pn.ProductID, (wo, pn) => new { wo, pn })
+                        .Where(x => x.wo.WorkOrderNo.Contains(searchWO) && x.pn.PartNo.Contains(searchPartNo))
+                        .Select(x => new
+                        {
+                            PartNo = x.pn.PartNo,
+                            WorkOrderNo = x.wo.WorkOrderNo,
+                            OutputQuantityPC = x.wo.OutputQuantityPC,
+                            Description = x.wo.Description,
+                            Timestamp = x.wo.Timestamp,
+                        })
+                        .ToList();
+
+                    if (listPC.Any()) // Checks if the list has any elements
+                    {
+                        dgvPC.DataSource = listPC;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Data not found", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadData(); // Assuming LoadData() refreshes dgvPC with default data
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                // Consider logging the exception details
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-          
+
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -248,11 +271,6 @@ namespace FPY
         private void btnEdit_Click(object sender, EventArgs e)
         {
 
-        }
-
-        private void btnClear_Click(object sender, EventArgs e)
-        {
-           
         }
 
         public void LoadDataComboBox()
@@ -277,30 +295,128 @@ namespace FPY
         {
             try
             {
+                var workOrderNo = txtWO.Text; 
                 using (var db = new FPYEntities())
                 {
-                    var workOrder = db.WorkOrders.FirstOrDefault(p => p.WorkOrderNo == txtWO.Text);
-                    if (workOrder != null)
+                    var foundWorkOrder = db.WorkOrders.FirstOrDefault(p => p.WorkOrderNo == workOrderNo);
+                    if (foundWorkOrder != null)
                     {
                         var partNo = db.Products.FirstOrDefault(p => p.PartNo == txtPartNo.Text);
-                        workOrder.PartNo = partNo.ProductID;
-                        workOrder.WorkOrderNo = txtWO.Text;
-                        workOrder.OutputQuantityPC = Convert.ToInt32(txtOutputQty.Text);
-                        workOrder.Description = txtDescription.Text;
-                        workOrder.Timestamp = DateTime.Now;
-                        if (db.SaveChanges() > 0)
+                        if(partNo != null)
                         {
-                            MessageBox.Show("Data has been updated successfully");
-                            LoadData();
-                        }
-                        else
+                            foundWorkOrder.PartNo = partNo.ProductID;
+                            foundWorkOrder.WorkOrderNo = txtWO.Text;
+                            foundWorkOrder.OutputQuantityPC = Convert.ToInt32(txtOutputQty.Text);
+                            foundWorkOrder.Description = txtDescription.Text;
+                            foundWorkOrder.Timestamp = DateTime.Now;
+                            if (db.SaveChanges() > 0)
+                            {
+                                MessageBox.Show("Data has been updated successfully");
+                                LoadData();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Data has not been updated");
+                            }
+                        }else
                         {
-                            MessageBox.Show("Data has not been updated");
+                            MessageBox.Show("PartNo not found");
                         }
+                        
                     }
                     else
                     {
-                        MessageBox.Show("Data not found");
+                        MessageBox.Show("WorkOrderNo " + workOrderNo + " not exits in database");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            var frm = new frmMain();
+            frm.Show();
+        }
+
+        private void dgvPC_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex >= 0)
+                {
+                    DataGridViewRow row = this.dgvPC.Rows[e.RowIndex];
+                    txtPartNo.Text = row.Cells["PartNo"].Value != null ? row.Cells["PartNo"].Value.ToString() : "";
+                    txtWO.Text = row.Cells["WorkOrderNo"].Value != null ? row.Cells["WorkOrderNo"].Value.ToString() : "";
+                    txtOutputQty.Text = row.Cells["OutputQuantityPC"].Value != null ? row.Cells["OutputQuantityPC"].Value.ToString() : "";
+                    txtDescription.Text = row.Cells["Description"].Value != null ? row.Cells["Description"].Value.ToString() : "";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnReloadData_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                LoadData(); 
+                //Show message box
+                MessageBox.Show("Data has been reloaded successfully");
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnClearData_Click(object sender, EventArgs e)
+        {
+            txtPartNo.Text = "";
+            txtWO.Text = "";
+            txtOutputQty.Text = "";
+            txtDescription.Text = "";
+        }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var db = new FPYEntities())
+                {
+                    var listPC = (from wo in db.WorkOrders
+                                  join pn in db.Products on wo.PartNo equals pn.ProductID
+                                  select new
+                                                                                                    {                                                                  
+                                      pn.PartNo,
+                                      wo.WorkOrderNo,
+                                      wo.OutputQuantityPC,
+                                      wo.Description,
+                                      wo.Timestamp,
+                                  }).ToList();
+                    if (listPC.Count > 0)
+                    {
+                        //Tạo mới form Report
+                        frmReport frmReport = new frmReport();
+                        //Tạo mới ReportViewer
+                        ReportViewer reportViewer = new ReportViewer();
+                        //Gán ReportViewer vào form Report
+                        frmReport.ReportViewer = reportViewer;
+                        
+                        frmReport.ReportViewer.LocalReport.DataSources.Add(new ReportDataSource("FPYDataSet", listPC));
+                       
+                        frmReport.ReportViewer.LocalReport.ReportPath = "Reports/rptPC.rdlc";
+                        
+                        frmReport.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Data not found", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             }
