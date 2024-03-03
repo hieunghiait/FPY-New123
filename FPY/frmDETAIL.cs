@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Reporting.Map.WebForms.BingMaps;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -209,6 +210,97 @@ namespace FPY
                         MessageBox.Show("Xóa thành công");
                         LoadData();
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void txtOutputQtyDetail_TextChanged(object sender, EventArgs e)
+        {
+            //cho phép nhập số 
+            if (System.Text.RegularExpressions.Regex.IsMatch(txtOutputQtyDetail.Text, "[^0-9]"))
+            {
+                MessageBox.Show("Chỉ cho phép nhập số");
+                txtOutputQtyDetail.Text = txtOutputQtyDetail.Text.Remove(txtOutputQtyDetail.Text.Length - 1);
+            }
+        }
+
+        private void txtDMRDetail_TextChanged(object sender, EventArgs e)
+        {
+            //cho phép nhập số 
+            if (System.Text.RegularExpressions.Regex.IsMatch(txtDMRDetail.Text, "[^0-9]"))
+            {
+                MessageBox.Show("Chỉ cho phép nhập số");
+                txtDMRDetail.Text = txtDMRDetail.Text.Remove(txtDMRDetail.Text.Length - 1);
+            }
+        }
+
+        private void txtPartNo_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtWO_TextChanged(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void txtPartNoSearch_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var db = new FPYEntities())
+                {
+                    var partNo = txtPartNoSearch.Text.Trim();
+                    var data = (from detail in db.Detailings
+                               join cnc in db.CNCOperations on detail.CNCOperationID equals cnc.CNCOperationID
+                               join wo in db.WorkOrders on cnc.WorkOrderID equals wo.WorkOrderID
+                               join p in db.Products on wo.PartNo equals p.ProductID
+                               select new
+                               {
+                                   detail.DetailingID,
+                                   PartNo = p.ProductID, 
+                                   wo.WorkOrderNo,
+                                   detail.InputQuantityDetail,
+                                   detail.OutputQuantityDetail,
+                                   detail.DMRDetail,
+                                   detail.Timestamp
+                               }).ToList();
+                    dgvDetail.DataSource = data;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void txtWOSearch_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var db = new FPYEntities())
+                {
+                    var workOrderNo = txtWOSearch.Text.Trim();
+                    var data = (from detail in db.Detailings
+                                join cnc in db.CNCOperations on detail.CNCOperationID equals cnc.CNCOperationID
+                                join wo in db.WorkOrders on cnc.WorkOrderID equals wo.WorkOrderID
+                                join p in db.Products on wo.PartNo equals p.ProductID
+                                select new
+                                {
+                                    detail.DetailingID,
+                                    PartNo = p.ProductID,
+                                    wo.WorkOrderNo,
+                                    detail.InputQuantityDetail,
+                                    detail.OutputQuantityDetail,
+                                    detail.DMRDetail,
+                                    detail.Timestamp
+                                }).ToList();
+                    dgvDetail.DataSource = data;
+                    dgvDetail.DataSource = data;
                 }
             }
             catch (Exception ex)

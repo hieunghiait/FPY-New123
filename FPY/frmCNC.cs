@@ -184,7 +184,12 @@ namespace FPY
        
         private void textBoxDMR_TextChanged(object sender, EventArgs e)
         {
-          
+            //chỉ cho phép nhập số 
+            if (System.Text.RegularExpressions.Regex.IsMatch(textBoxDMR.Text, "[^0-9]"))
+            {
+                MessageBox.Show("Please enter only numbers.");
+                textBoxDMR.Text = textBoxDMR.Text.Remove(textBoxDMR.Text.Length - 1);
+            }
         }
 
         private void txtBoxInputQuantity_TextChanged(object sender, EventArgs e)
@@ -194,7 +199,31 @@ namespace FPY
 
         private void txtBoxWO_TextChanged(object sender, EventArgs e)
         {
-
+            var workOrderNo = txtBoxWO.Text.Trim();
+            //search text change 
+            using (var db = new FPYEntities())
+            {
+                try
+                {
+                    var data = (from cnc in db.CNCOperations
+                                join wo in db.WorkOrders on cnc.WorkOrderID equals wo.WorkOrderID
+                                join p in db.Products on wo.PartNo equals p.ProductID
+                                where wo.WorkOrderNo.Contains(workOrderNo)
+                                select new                                                                                                                            {
+                                    p.PartNo,
+                                    wo.WorkOrderNo,
+                                    cnc.InputQuantityCNC,
+                                    cnc.OutputQuantityCNC,
+                                    cnc.DMRCNC,
+                                    cnc.Timestamp
+                                }).ToList();
+                    dgvCNC.DataSource = data;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
         }
 
         private void textBoxOutputQuantity_TextChanged(object sender, EventArgs e)
@@ -278,6 +307,48 @@ namespace FPY
                         MessageBox.Show("Không tìm thấy work order");
                     }
                 }
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void textBoxPartNum_TextChanged(object sender, EventArgs e)
+        {
+            //search text change
+            //search mã vạch
+            using (var db = new FPYEntities())
+            {
+                try
+                {
+                    var data = (from cnc in db.CNCOperations
+                                join wo in db.WorkOrders on cnc.WorkOrderID equals wo.WorkOrderID
+                                join p in db.Products on wo.PartNo equals p.ProductID
+                                where p.PartNo.Contains(textBoxPartNum.Text)
+                                select new
+                                {
+                                    p.PartNo,
+                                    wo.WorkOrderNo,
+                                    cnc.InputQuantityCNC,
+                                    cnc.OutputQuantityCNC,
+                                    cnc.DMRCNC,
+                                    cnc.Timestamp
+                                }).ToList();
+                    dgvCNC.DataSource = data;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+          
+        }
+
+        private void btnReloadData_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                LoadData();
             }catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);

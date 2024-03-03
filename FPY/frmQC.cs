@@ -80,10 +80,15 @@ namespace FPY
                     using (var db = new FPYEntities())
                     {
                         var data = from qc in db.QualityControls
-                                   where qc.QCOperationID.ToString().Contains(txtWO.Text)
+                                   join detail in db.Detailings on qc.DetailingID equals detail.DetailingID
+                                   join cnc in db.CNCOperations on detail.CNCOperationID equals cnc.CNCOperationID
+                                   join wo in db.WorkOrders on cnc.WorkOrderID equals wo.WorkOrderID
+                                   join p in db.Products on wo.PartNo equals p.ProductID
                                    select new
                                    {
                                        qc.QCOperationID,
+                                       p.PartNo,
+                                       wo.WorkOrderNo,
                                        qc.InputQuantityQC,
                                        qc.OutputQuantityQC,
                                        qc.DMRQC,
@@ -177,6 +182,43 @@ namespace FPY
                     }
                 }
             }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void txtPartNoSearch_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var db = new FPYEntities())
+                {
+                    var search = txtPartNoSearch.Text;
+                    if (search == string.Empty)
+                    {
+                        LoadData();
+                    }
+                    var data = from qc in db.QualityControls
+                               join detail in db.Detailings on qc.DetailingID equals detail.DetailingID
+                               join cnc in db.CNCOperations on detail.CNCOperationID equals cnc.CNCOperationID
+                               join wo in db.WorkOrders on cnc.WorkOrderID equals wo.WorkOrderID
+                               join p in db.Products on wo.PartNo equals p.ProductID
+                               where p.PartNo.Contains(search)
+                               select new
+                               {
+                                   qc.QCOperationID,
+                                   p.PartNo,
+                                   wo.WorkOrderNo,
+                                   qc.InputQuantityQC,
+                                   qc.OutputQuantityQC,
+                                   qc.DMRQC,
+                                   qc.Timestamp
+                               };
+                    dgvQC.DataSource = data.ToList();
+                    dgvQC.Refresh();
+                }
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }

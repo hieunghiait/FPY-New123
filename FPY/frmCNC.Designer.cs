@@ -45,8 +45,9 @@
             this.textBoxDMR = new System.Windows.Forms.TextBox();
             this.txtBoxInputQuantity = new System.Windows.Forms.TextBox();
             this.textBoxDescription = new System.Windows.Forms.RichTextBox();
-            this.btnBack = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
+            this.btnReloadData = new System.Windows.Forms.Button();
+            this.btn = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCNC)).BeginInit();
             this.panel2.SuspendLayout();
@@ -76,7 +77,7 @@
             // 
             this.btnCapNhat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.btnCapNhat.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCapNhat.Location = new System.Drawing.Point(188, 203);
+            this.btnCapNhat.Location = new System.Drawing.Point(249, 203);
             this.btnCapNhat.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCapNhat.Name = "btnCapNhat";
             this.btnCapNhat.Size = new System.Drawing.Size(105, 43);
@@ -89,7 +90,7 @@
             // 
             this.btnSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearch.Location = new System.Drawing.Point(71, 203);
+            this.btnSearch.Location = new System.Drawing.Point(104, 203);
             this.btnSearch.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(101, 43);
@@ -107,12 +108,13 @@
             this.textBoxPartNum.Name = "textBoxPartNum";
             this.textBoxPartNum.Size = new System.Drawing.Size(153, 28);
             this.textBoxPartNum.TabIndex = 4;
+            this.textBoxPartNum.TextChanged += new System.EventHandler(this.textBoxPartNum_TextChanged);
             // 
             // txtBoxWO
             // 
             this.txtBoxWO.AcceptsTab = true;
             this.txtBoxWO.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBoxWO.Location = new System.Drawing.Point(125, 82);
+            this.txtBoxWO.Location = new System.Drawing.Point(132, 82);
             this.txtBoxWO.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtBoxWO.Name = "txtBoxWO";
             this.txtBoxWO.Size = new System.Drawing.Size(127, 28);
@@ -128,7 +130,7 @@
             this.panel1.Location = new System.Drawing.Point(56, 39);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(376, 142);
+            this.panel1.Size = new System.Drawing.Size(485, 142);
             this.panel1.TabIndex = 6;
             // 
             // dgvCNC
@@ -147,7 +149,7 @@
             this.dgvCNC.ReadOnly = true;
             this.dgvCNC.RowHeadersWidth = 51;
             this.dgvCNC.RowTemplate.Height = 24;
-            this.dgvCNC.Size = new System.Drawing.Size(927, 615);
+            this.dgvCNC.Size = new System.Drawing.Size(927, 676);
             this.dgvCNC.TabIndex = 7;
             this.dgvCNC.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCNC_CellClick);
             this.dgvCNC.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCNC_CellContentClick);
@@ -202,16 +204,16 @@
             this.panel2.Controls.Add(this.labelDMR);
             this.panel2.Controls.Add(this.labelInputQuantity);
             this.panel2.Controls.Add(this.textBoxDescription);
-            this.panel2.Location = new System.Drawing.Point(40, 265);
+            this.panel2.Location = new System.Drawing.Point(40, 326);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(419, 353);
+            this.panel2.Size = new System.Drawing.Size(501, 389);
             this.panel2.TabIndex = 17;
             // 
             // textBoxOutputQuantity
             // 
             this.textBoxOutputQuantity.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxOutputQuantity.Location = new System.Drawing.Point(141, 79);
+            this.textBoxOutputQuantity.Location = new System.Drawing.Point(167, 79);
             this.textBoxOutputQuantity.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxOutputQuantity.Name = "textBoxOutputQuantity";
             this.textBoxOutputQuantity.Size = new System.Drawing.Size(172, 28);
@@ -222,7 +224,7 @@
             // textBoxDMR
             // 
             this.textBoxDMR.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F);
-            this.textBoxDMR.Location = new System.Drawing.Point(141, 281);
+            this.textBoxDMR.Location = new System.Drawing.Point(167, 278);
             this.textBoxDMR.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxDMR.Name = "textBoxDMR";
             this.textBoxDMR.Size = new System.Drawing.Size(96, 28);
@@ -232,7 +234,7 @@
             // txtBoxInputQuantity
             // 
             this.txtBoxInputQuantity.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBoxInputQuantity.Location = new System.Drawing.Point(148, 42);
+            this.txtBoxInputQuantity.Location = new System.Drawing.Point(167, 42);
             this.txtBoxInputQuantity.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtBoxInputQuantity.Name = "txtBoxInputQuantity";
             this.txtBoxInputQuantity.ReadOnly = true;
@@ -245,29 +247,18 @@
             // 
             this.textBoxDescription.AcceptsTab = true;
             this.textBoxDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxDescription.Location = new System.Drawing.Point(143, 140);
+            this.textBoxDescription.Location = new System.Drawing.Point(167, 139);
             this.textBoxDescription.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxDescription.Name = "textBoxDescription";
             this.textBoxDescription.Size = new System.Drawing.Size(249, 118);
             this.textBoxDescription.TabIndex = 19;
             this.textBoxDescription.Text = "";
             // 
-            // btnBack
-            // 
-            this.btnBack.Location = new System.Drawing.Point(1331, 660);
-            this.btnBack.Margin = new System.Windows.Forms.Padding(4);
-            this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(94, 35);
-            this.btnBack.TabIndex = 18;
-            this.btnBack.Text = "Back";
-            this.btnBack.UseVisualStyleBackColor = true;
-            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
-            // 
             // btnDelete
             // 
             this.btnDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.btnDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDelete.Location = new System.Drawing.Point(306, 203);
+            this.btnDelete.Location = new System.Drawing.Point(385, 203);
             this.btnDelete.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(102, 43);
@@ -276,14 +267,39 @@
             this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
+            // btnReloadData
+            // 
+            this.btnReloadData.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.btnReloadData.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReloadData.Location = new System.Drawing.Point(104, 250);
+            this.btnReloadData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnReloadData.Name = "btnReloadData";
+            this.btnReloadData.Size = new System.Drawing.Size(101, 52);
+            this.btnReloadData.TabIndex = 20;
+            this.btnReloadData.Text = "RELOAD DATA";
+            this.btnReloadData.UseVisualStyleBackColor = false;
+            this.btnReloadData.Click += new System.EventHandler(this.btnReloadData_Click);
+            // 
+            // btn
+            // 
+            this.btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            this.btn.Location = new System.Drawing.Point(249, 252);
+            this.btn.Margin = new System.Windows.Forms.Padding(4);
+            this.btn.Name = "btn";
+            this.btn.Size = new System.Drawing.Size(105, 52);
+            this.btn.TabIndex = 21;
+            this.btn.Text = "BACK";
+            this.btn.UseVisualStyleBackColor = true;
+            // 
             // frmCNC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.ClientSize = new System.Drawing.Size(1524, 726);
+            this.Controls.Add(this.btn);
+            this.Controls.Add(this.btnReloadData);
             this.Controls.Add(this.btnDelete);
-            this.Controls.Add(this.btnBack);
             this.Controls.Add(this.dgvCNC);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnSearch);
@@ -322,7 +338,8 @@
         private System.Windows.Forms.TextBox txtBoxInputQuantity;
         private System.Windows.Forms.TextBox textBoxOutputQuantity;
         private System.Windows.Forms.TextBox textBoxDMR;
-        private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnReloadData;
+        private System.Windows.Forms.Button btn;
     }
 }
