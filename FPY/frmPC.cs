@@ -64,11 +64,30 @@ namespace FPY
             }
         }
         #endregion
+        public void  validationInput()
+        {
+            if(txtPartNo.Text == "")
+            {
+                MessageBox.Show("PartNo is required", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (txtWO.Text == "")
+            {
+                MessageBox.Show("WorkOrderNo is required", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (txtOutputQty.Text == "")
+            {
+                MessageBox.Show("OutputQuantity is required", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
         //Sự kiện cập nhật 
         private void btnSave_Click(object sender, EventArgs e)
         {
             try
             {
+                validationInput(); 
                 using (var db = new FPYEntities())
                 {
                     var partNo = txtPartNo.Text.Trim(); //sanitize input
@@ -288,7 +307,6 @@ namespace FPY
                 // Consider logging the exception details
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -329,10 +347,10 @@ namespace FPY
         {
             try
             {
-                var workOrderNo = txtWO.Text.Trim(); //sanitize input 
-                var partNo = txtPartNo.Text.Trim(); //sanitize input
-                var inputPartNo = txtPartNo.Text.Trim(); //sanitize input
-                var outputQty = txtOutputQty.Text.Trim(); //sanitize input
+                var workOrderNo = txtWO.Text.Trim();
+                var partNo = txtPartNo.Text.Trim(); 
+                var inputPartNo = txtPartNo.Text.Trim(); 
+                var outputQty = txtOutputQty.Text.Trim(); 
 
                 using (var db = new FPYEntities())
                 {
@@ -340,7 +358,7 @@ namespace FPY
                     if (foundWorkOrder != null) // Nếu tìm thấy workOrderNo trong database 
                     {
                         var foundPartNo = db.Products.FirstOrDefault(p => p.PartNo == partNo);
-                        if(partNo != null)
+                        if (partNo != null) // 
                         {
                             foundWorkOrder.PartNo = foundPartNo.ProductID;
                             foundWorkOrder.WorkOrderNo = workOrderNo;
@@ -352,7 +370,7 @@ namespace FPY
                             {
                                 if (db.SaveChanges() > 0)
                                 {
-                                    MessageBox.Show("Data has been updated successfully", "Information",  MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MessageBox.Show("Data has been updated successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     LoadData();
                                 }
                                 else
@@ -364,11 +382,12 @@ namespace FPY
                             {
                                 return;
                             }
-                        }else
+                        }
+                        else
                         {
                             MessageBox.Show("PartNo not found");
                         }
-                        
+
                     }
                     else
                     {
@@ -393,13 +412,13 @@ namespace FPY
         {
             try
             {
-                if (e.RowIndex >= 0)
+                if (dgvPC.Rows.Count > 0)
                 {
-                    DataGridViewRow row = this.dgvPC.Rows[e.RowIndex];
-                    txtPartNo.Text = row.Cells["PartNo"].Value != null ? row.Cells["PartNo"].Value.ToString() : "";
-                    txtWO.Text = row.Cells["WorkOrderNo"].Value != null ? row.Cells["WorkOrderNo"].Value.ToString() : "";
-                    txtOutputQty.Text = row.Cells["OutputQuantityPC"].Value != null ? row.Cells["OutputQuantityPC"].Value.ToString() : "";
-                    txtDescription.Text = row.Cells["Description"].Value != null ? row.Cells["Description"].Value.ToString() : "";
+                    var row = dgvPC.Rows[e.RowIndex];
+                    txtPartNo.Text = Convert.ToString(row.Cells["PartNo"].Value);
+                    txtWO.Text = Convert.ToString(row.Cells["WorkOrderNo"].Value);
+                    txtOutputQty.Text = Convert.ToString(row.Cells["OutputQuantityPC"].Value);
+                    txtDescription.Text = Convert.ToString(row.Cells["Description"].Value);
                 }
             }
             catch (Exception ex)
@@ -471,12 +490,62 @@ namespace FPY
 
         private void txtOutputQty_TextChanged(object sender, EventArgs e)
         {
-            //Kiểm tra input có phải là số không
-            //"^[0-9]*$" 
-            if (!System.Text.RegularExpressions.Regex.IsMatch(txtOutputQty.Text, "^-?[0-9]*$"))
+
+        }
+
+        private void txtPartNoSearch_TextChanged(object sender, EventArgs e)
+        {
+           var textBoxPartNum = txtPartNoSearch.Text.Trim();    
+            using (var db = new FPYEntities())
             {
-                MessageBox.Show("Please enter only numbers", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtOutputQty.Text = string.Empty;
+                try
+                {
+                    var data = (from cnc in db.CNCOperations
+                                join wo in db.WorkOrders on cnc.WorkOrderID equals wo.WorkOrderID
+                                join p in db.Products on wo.PartNo equals p.ProductID
+                                where p.PartNo.Contains(textBoxPartNum)
+                                select new
+                                {
+                                    p.PartNo,
+                                    wo.WorkOrderNo,
+                                    wo.OutputQuantityPC, 
+                                    wo.Description,
+                                    wo.Timestamp
+                                }).ToList();
+                    dgvPC.DataSource = data;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void txtWOSearch_TextChanged(object sender, EventArgs e)
+        {
+            var textBoxWO = txtWOSearch.Text.Trim();
+            using (var db = new FPYEntities())
+            {
+                try
+                {
+                    var data = (from cnc in db.CNCOperations
+                                join wo in db.WorkOrders on cnc.WorkOrderID equals wo.WorkOrderID
+                                join p in db.Products on wo.PartNo equals p.ProductID
+                                where wo.WorkOrderNo.Contains(textBoxWO)
+                                select new
+                                {
+                                    p.PartNo,
+                                    wo.WorkOrderNo,
+                                    wo.OutputQuantityPC, 
+                                    wo.Description,
+                                    wo.Timestamp
+                                }).ToList();
+                    dgvPC.DataSource = data;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
     }

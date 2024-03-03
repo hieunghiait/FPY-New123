@@ -177,7 +177,26 @@ namespace FPY
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-
+            try
+            {
+                using (var db = new FPYEntities())
+                {
+                    var search = txtSearch.Text;
+                    if (search == string.Empty)
+                    {
+                        LoadData();
+                    }
+                    var products = db.Products.Where(p => p.PartNo.Contains(search)).Select(p => new
+                    {
+                        p.PartNo,
+                    }).ToList();
+                    dgvProducts.DataSource = products;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
