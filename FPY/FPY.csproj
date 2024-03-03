@@ -232,6 +232,7 @@
     <Compile Include="User.cs">
       <DependentUpon>FPY.tt</DependentUpon>
     </Compile>
+    <Compile Include="Utils\validationNumber.cs" />
     <Compile Include="WorkOrder.cs">
       <DependentUpon>FPY.tt</DependentUpon>
     </Compile>

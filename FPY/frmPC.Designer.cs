@@ -138,8 +138,9 @@
             this.txtOutputQty.Location = new System.Drawing.Point(143, 134);
             this.txtOutputQty.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtOutputQty.Name = "txtOutputQty";
-            this.txtOutputQty.Size = new System.Drawing.Size(153, 27);
+            this.txtOutputQty.Size = new System.Drawing.Size(220, 27);
             this.txtOutputQty.TabIndex = 7;
+            this.txtOutputQty.TextChanged += new System.EventHandler(this.txtOutputQty_TextChanged_1);
             // 
             // txtDescription
             // 
@@ -202,6 +203,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnBack);
             this.panel1.Controls.Add(this.txtWO);
             this.panel1.Controls.Add(this.btnExport);
             this.panel1.Controls.Add(this.btnClearData);
@@ -228,13 +230,13 @@
             // 
             this.txtWO.Location = new System.Drawing.Point(143, 95);
             this.txtWO.Name = "txtWO";
-            this.txtWO.Size = new System.Drawing.Size(153, 22);
+            this.txtWO.Size = new System.Drawing.Size(275, 22);
             this.txtWO.TabIndex = 23;
             // 
             // btnExport
             // 
             this.btnExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
-            this.btnExport.Location = new System.Drawing.Point(380, 416);
+            this.btnExport.Location = new System.Drawing.Point(380, 409);
             this.btnExport.Margin = new System.Windows.Forms.Padding(4);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(117, 49);
@@ -247,7 +249,7 @@
             // 
             this.btnClearData.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.btnClearData.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClearData.Location = new System.Drawing.Point(15, 416);
+            this.btnClearData.Location = new System.Drawing.Point(15, 409);
             this.btnClearData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnClearData.Name = "btnClearData";
             this.btnClearData.Size = new System.Drawing.Size(132, 54);
@@ -260,7 +262,7 @@
             // 
             this.btnReloadData.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.btnReloadData.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReloadData.Location = new System.Drawing.Point(167, 416);
+            this.btnReloadData.Location = new System.Drawing.Point(167, 409);
             this.btnReloadData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnReloadData.Name = "btnReloadData";
             this.btnReloadData.Size = new System.Drawing.Size(196, 49);
@@ -277,17 +279,17 @@
             this.txtPartNo.Location = new System.Drawing.Point(143, 50);
             this.txtPartNo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPartNo.Name = "txtPartNo";
-            this.txtPartNo.Size = new System.Drawing.Size(153, 24);
+            this.txtPartNo.Size = new System.Drawing.Size(220, 24);
             this.txtPartNo.TabIndex = 22;
             // 
             // btnSearch
             // 
             this.btnSearch.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearch.Location = new System.Drawing.Point(15, 484);
+            this.btnSearch.Location = new System.Drawing.Point(15, 474);
             this.btnSearch.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(132, 44);
+            this.btnSearch.Size = new System.Drawing.Size(132, 54);
             this.btnSearch.TabIndex = 20;
             this.btnSearch.Text = "SEARCH";
             this.btnSearch.UseVisualStyleBackColor = false;
@@ -305,10 +307,11 @@
             // 
             // btnBack
             // 
-            this.btnBack.Location = new System.Drawing.Point(1625, 657);
+            this.btnBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
+            this.btnBack.Location = new System.Drawing.Point(167, 474);
             this.btnBack.Margin = new System.Windows.Forms.Padding(4);
             this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(105, 39);
+            this.btnBack.Size = new System.Drawing.Size(196, 51);
             this.btnBack.TabIndex = 22;
             this.btnBack.Text = "BACK";
             this.btnBack.UseVisualStyleBackColor = true;
@@ -316,9 +319,9 @@
             // 
             // txtPartNoSearch
             // 
-            this.txtPartNoSearch.Location = new System.Drawing.Point(680, 114);
+            this.txtPartNoSearch.Location = new System.Drawing.Point(117, 48);
             this.txtPartNoSearch.Name = "txtPartNoSearch";
-            this.txtPartNoSearch.Size = new System.Drawing.Size(163, 22);
+            this.txtPartNoSearch.Size = new System.Drawing.Size(177, 22);
             this.txtPartNoSearch.TabIndex = 24;
             this.txtPartNoSearch.TextChanged += new System.EventHandler(this.txtPartNoSearch_TextChanged);
             // 
@@ -327,7 +330,7 @@
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(3, 29);
+            this.label5.Location = new System.Drawing.Point(15, 50);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(96, 20);
             this.label5.TabIndex = 24;
@@ -339,7 +342,7 @@
             this.label6.AutoSize = true;
             this.label6.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(3, 70);
+            this.label6.Location = new System.Drawing.Point(15, 95);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(38, 20);
             this.label6.TabIndex = 24;
@@ -348,14 +351,16 @@
             // 
             // txtWOSearch
             // 
-            this.txtWOSearch.Location = new System.Drawing.Point(680, 157);
+            this.txtWOSearch.Location = new System.Drawing.Point(117, 95);
             this.txtWOSearch.Name = "txtWOSearch";
-            this.txtWOSearch.Size = new System.Drawing.Size(163, 22);
+            this.txtWOSearch.Size = new System.Drawing.Size(177, 22);
             this.txtWOSearch.TabIndex = 24;
             this.txtWOSearch.TextChanged += new System.EventHandler(this.txtWOSearch_TextChanged);
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.txtPartNoSearch);
+            this.panel3.Controls.Add(this.txtWOSearch);
             this.panel3.Controls.Add(this.label5);
             this.panel3.Controls.Add(this.label6);
             this.panel3.Location = new System.Drawing.Point(547, 87);
@@ -369,9 +374,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.ClientSize = new System.Drawing.Size(1761, 709);
-            this.Controls.Add(this.txtWOSearch);
-            this.Controls.Add(this.txtPartNoSearch);
-            this.Controls.Add(this.btnBack);
             this.Controls.Add(this.title);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);

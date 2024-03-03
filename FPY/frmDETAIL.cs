@@ -184,6 +184,7 @@ namespace FPY
         private void btnLoadData_Click(object sender, EventArgs e)
         {
             LoadData(); 
+            MessageBox.Show("Reload data successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
