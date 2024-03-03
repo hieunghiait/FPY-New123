@@ -1,4 +1,5 @@
 ﻿using FPY.Reports;
+using FPY.Utils;
 using Microsoft.Reporting.WinForms;
 using System;
 using System.Collections;
@@ -439,7 +440,7 @@ namespace FPY
                 MessageBox.Show(ex.Message);
             }
         }
-
+        //Xóa dữ liệu
         private void btnClearData_Click(object sender, EventArgs e)
         {
             ClearData(); 
@@ -546,6 +547,16 @@ namespace FPY
                 {
                     MessageBox.Show(ex.Message);
                 }
+            }
+        }
+
+        private void txtOutputQty_TextChanged_1(object sender, EventArgs e)
+        {
+            //chỉ cho phép nhập số
+            if (System.Text.RegularExpressions.Regex.IsMatch(txtOutputQty.Text, "[^0-9]"))
+            {
+                MessageBox.Show("Please enter only numbers.");
+                txtOutputQty.Text = txtOutputQty.Text.Remove(txtOutputQty.Text.Length - 1);
             }
         }
     }

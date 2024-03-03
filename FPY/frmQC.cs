@@ -223,5 +223,11 @@ namespace FPY
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void btnReloadData_Click(object sender, EventArgs e)
+        {
+            LoadData(); 
+            MessageBox.Show("Data reloaded successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }

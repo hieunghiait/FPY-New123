@@ -55,6 +55,7 @@
             this.txtPartNoSearch = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.btnReloadData = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvQC)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -74,7 +75,7 @@
             // btnBack
             // 
             this.btnBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
-            this.btnBack.Location = new System.Drawing.Point(222, 344);
+            this.btnBack.Location = new System.Drawing.Point(180, 340);
             this.btnBack.Margin = new System.Windows.Forms.Padding(4);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(113, 49);
@@ -270,7 +271,7 @@
             // 
             this.btnUpdate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.btnUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnUpdate.Location = new System.Drawing.Point(90, 268);
+            this.btnUpdate.Location = new System.Drawing.Point(48, 264);
             this.btnUpdate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(107, 56);
@@ -299,7 +300,7 @@
             // 
             this.btnDelete.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.btnDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDelete.Location = new System.Drawing.Point(222, 268);
+            this.btnDelete.Location = new System.Drawing.Point(180, 264);
             this.btnDelete.Margin = new System.Windows.Forms.Padding(4);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(113, 56);
@@ -312,7 +313,7 @@
             // 
             this.btnSearch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearch.Location = new System.Drawing.Point(93, 339);
+            this.btnSearch.Location = new System.Drawing.Point(51, 335);
             this.btnSearch.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(104, 54);
@@ -369,11 +370,25 @@
             this.label5.TabIndex = 4;
             this.label5.Text = "WO";
             // 
+            // btnReloadData
+            // 
+            this.btnReloadData.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.btnReloadData.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReloadData.Location = new System.Drawing.Point(301, 264);
+            this.btnReloadData.Margin = new System.Windows.Forms.Padding(4);
+            this.btnReloadData.Name = "btnReloadData";
+            this.btnReloadData.Size = new System.Drawing.Size(167, 56);
+            this.btnReloadData.TabIndex = 35;
+            this.btnReloadData.Text = "RELOAD DATA";
+            this.btnReloadData.UseVisualStyleBackColor = false;
+            this.btnReloadData.Click += new System.EventHandler(this.btnReloadData_Click);
+            // 
             // frmQC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1806, 845);
+            this.Controls.Add(this.btnReloadData);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnBack);
@@ -429,5 +444,6 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox txtPartNoSearch;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnReloadData;
     }
 }

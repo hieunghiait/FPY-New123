@@ -143,13 +143,13 @@
             this.dgvCNC.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
             this.dgvCNC.ColumnHeadersHeight = 29;
             this.dgvCNC.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.dgvCNC.Location = new System.Drawing.Point(574, 39);
+            this.dgvCNC.Location = new System.Drawing.Point(566, 32);
             this.dgvCNC.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dgvCNC.Name = "dgvCNC";
             this.dgvCNC.ReadOnly = true;
             this.dgvCNC.RowHeadersWidth = 51;
             this.dgvCNC.RowTemplate.Height = 24;
-            this.dgvCNC.Size = new System.Drawing.Size(927, 676);
+            this.dgvCNC.Size = new System.Drawing.Size(935, 683);
             this.dgvCNC.TabIndex = 7;
             this.dgvCNC.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCNC_CellClick);
             this.dgvCNC.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCNC_CellContentClick);
@@ -271,10 +271,10 @@
             // 
             this.btnReloadData.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.btnReloadData.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReloadData.Location = new System.Drawing.Point(104, 250);
+            this.btnReloadData.Location = new System.Drawing.Point(92, 250);
             this.btnReloadData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnReloadData.Name = "btnReloadData";
-            this.btnReloadData.Size = new System.Drawing.Size(101, 52);
+            this.btnReloadData.Size = new System.Drawing.Size(138, 52);
             this.btnReloadData.TabIndex = 20;
             this.btnReloadData.Text = "RELOAD DATA";
             this.btnReloadData.UseVisualStyleBackColor = false;
@@ -290,6 +290,7 @@
             this.btn.TabIndex = 21;
             this.btn.Text = "BACK";
             this.btn.UseVisualStyleBackColor = true;
+            this.btn.Click += new System.EventHandler(this.btn_Click);
             // 
             // frmCNC
             // 

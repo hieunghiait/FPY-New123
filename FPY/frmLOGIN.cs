@@ -76,7 +76,7 @@ namespace FPY
             {
                 ///Kiểm tra xem người dùng có chọn lưu thông tin đăng nhập không
                 checkHistoryLogin(username, password);
-                MessageBox.Show("Đăng nhập thành công!");
+                MessageBox.Show("Login successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 //Ẩn form hiện tại và hiển thị form chính
                 this.Hide();
                 frmMain frmMain = new frmMain(); 

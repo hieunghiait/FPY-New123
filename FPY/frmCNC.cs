@@ -16,7 +16,6 @@ namespace FPY
             InitializeComponent(); 
             AddRowNumberColumn(); 
             this.dgvCNC.RowPostPaint += new DataGridViewRowPostPaintEventHandler(this.dgvCNC_RowPostPaint);
-            //set title 
             this.Text = "FORM CNC";
         }
         public  void LoadData()
@@ -47,11 +46,6 @@ namespace FPY
                 }
 
             }
-        }
-
-        private void AddRowNumberColumn()
-        {
-
         }
         private void dgvCNC_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
@@ -353,6 +347,13 @@ namespace FPY
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void btn_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            frmMain frmMain = new frmMain();
+            frmMain.Show(); 
         }
     }
 }
