@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
@@ -164,15 +165,14 @@ namespace FPY
             if (dgvPC.Rows.Count > 0)
             {
                 var row = dgvPC.Rows[0];
-                txtPartNo.Text = Convert.ToString(row.Cells["PartNo"].Value);
-                txtWO.Text = Convert.ToString(row.Cells["WorkOrderNo"].Value);
-                txtOutputQty.Text = Convert.ToString(row.Cells["OutputQuantityPC"].Value);
-                txtDescription.Text = Convert.ToString(row.Cells["Description"].Value);
+                txtPartNo.Text = Convert.ToString(row.Cells["PartNo"].Value) ?? "";
+                txtWO.Text = Convert.ToString(row.Cells["WorkOrderNo"].Value) ?? "";
+                txtOutputQty.Text = Convert.ToString(row.Cells["OutputQuantityPC"].Value) ?? "";
+                txtDescription.Text = Convert.ToString(row.Cells["Description"].Value) ?? "";
             }
         }
         private void frmPC_Load(object sender, EventArgs e)
         {
-            //Load data
             LoadData();
             LoadDataComboBox();
         }
@@ -197,7 +197,7 @@ namespace FPY
                     dgvPC.DataSource = listPC;
                 }
                 //select phần tử đầu tiên 
-                dgvPC.Rows[0].Selected = true;
+                dgvPC.Rows[0].Selected = true; 
                 BindFirstRowToInputs();
             }
             catch (Exception ex)
@@ -210,8 +210,8 @@ namespace FPY
         {
             try
             {
-                var workOrderNo = txtWO.Text.Trim(); //sanitize input
-                var partNo = txtPartNo.Text.Trim(); //sanitize input
+                var workOrderNo = txtWO.Text.Trim(); 
+                var partNo = txtPartNo.Text.Trim(); 
                 using (var db = new FPYEntities())
                 {
                     var workOrder = db.WorkOrders.FirstOrDefault(p => p.WorkOrderNo == txtWO.Text);
@@ -239,7 +239,7 @@ namespace FPY
                     }
                     else
                     {
-                        MessageBox.Show("Data not found");
+                        MessageBox.Show("WorkOrderNo " + workOrderNo + " not exits in database");
                     }
                 }
             }
@@ -413,13 +413,17 @@ namespace FPY
         {
             try
             {
+                if(e.RowIndex < 0)
+                {
+                    return; 
+                }    
                 if (dgvPC.Rows.Count > 0)
                 {
                     var row = dgvPC.Rows[e.RowIndex];
-                    txtPartNo.Text = Convert.ToString(row.Cells["PartNo"].Value);
-                    txtWO.Text = Convert.ToString(row.Cells["WorkOrderNo"].Value);
-                    txtOutputQty.Text = Convert.ToString(row.Cells["OutputQuantityPC"].Value);
-                    txtDescription.Text = Convert.ToString(row.Cells["Description"].Value);
+                    txtPartNo.Text = Convert.ToString(row.Cells["PartNo"].Value != null ? row.Cells["PartNo"].Value.ToString() : "");
+                    txtWO.Text = Convert.ToString(row.Cells["WorkOrderNo"].Value != null ? row.Cells["WorkOrderNo"].Value.ToString(): "");
+                    txtOutputQty.Text = Convert.ToString(row.Cells["OutputQuantityPC"].Value != null ? row.Cells["OutputQuantityPC"].Value.ToString() : "");
+                    txtDescription.Text = Convert.ToString(row.Cells["Description"].Value != null ? row.Cells["Description"].Value.ToString() : "");
                 }
             }
             catch (Exception ex)
@@ -433,7 +437,6 @@ namespace FPY
             try
             {
                 LoadData(); 
-                //Show message box
                 MessageBox.Show("Data has been reloaded successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }catch(Exception ex)
             {
@@ -450,42 +453,38 @@ namespace FPY
         {
             try
             {
-                using (var db = new FPYEntities())
+                using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "Excel Workbook|*.xlsx" })
                 {
-                    var listPC = (from wo in db.WorkOrders
-                                  join pn in db.Products on wo.PartNo equals pn.ProductID
-                                  select new
-                                                                                                    {                                                                  
-                                      pn.PartNo,
-                                      wo.WorkOrderNo,
-                                      wo.OutputQuantityPC,
-                                      wo.Description,
-                                      wo.Timestamp,
-                                  }).ToList();
-                    if (listPC.Count > 0)
+                    if (sfd.ShowDialog() == DialogResult.OK)
                     {
-                        //Tạo mới form Report
-                        frmReport frmReport = new frmReport();
-                        //Tạo mới ReportViewer
-                        ReportViewer reportViewer = new ReportViewer();
-                        //Gán ReportViewer vào form Report
-                        frmReport.ReportViewer = reportViewer;
-                        
-                        frmReport.ReportViewer.LocalReport.DataSources.Add(new ReportDataSource("FPYDataSet", listPC));
-                       
-                        frmReport.ReportViewer.LocalReport.ReportPath = "Reports/rptPC.rdlc";
-                        
-                        frmReport.Show();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Data not found", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        using (var workbook = new ClosedXML.Excel.XLWorkbook())
+                        {
+                            var worksheet = workbook.Worksheets.Add("ReportPC");
+                            worksheet.Cell(1, 1).Value = "No.";
+                            worksheet.Cell(1, 1).Style.Font.Bold = true;
+                            for (int i = 1; i <= dgvPC.Columns.Count; i++)
+                            {
+                                worksheet.Cell(1, i + 1).Value = dgvPC.Columns[i - 1].HeaderText;
+                                worksheet.Cell(1, i + 1).Style.Font.Bold = true;
+                            }
+                            for (int i = 0; i < dgvPC.Rows.Count; i++)
+                            {
+                                worksheet.Cell(i + 2, 1).Value = i + 1;
+
+                                for (int j = 0; j < dgvPC.Columns.Count; j++)
+                                {
+                                    worksheet.Cell(i + 2, j + 2).Value = dgvPC.Rows[i].Cells[j].Value.ToString();
+                                }
+                            }
+                            workbook.SaveAs(sfd.FileName);
+                        }
+                        MessageBox.Show("Export Successful", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -496,7 +495,7 @@ namespace FPY
 
         private void txtPartNoSearch_TextChanged(object sender, EventArgs e)
         {
-           var textBoxPartNum = txtPartNoSearch.Text.Trim();    
+           var textBoxPartNum = txtPartNo.Text.Trim();    
             using (var db = new FPYEntities())
             {
                 try
@@ -524,7 +523,7 @@ namespace FPY
 
         private void txtWOSearch_TextChanged(object sender, EventArgs e)
         {
-            var textBoxWO = txtWOSearch.Text.Trim();
+            var textBoxWO = txtWO.Text.Trim();
             using (var db = new FPYEntities())
             {
                 try
@@ -557,6 +556,63 @@ namespace FPY
             {
                 MessageBox.Show("Please enter only numbers.");
                 txtOutputQty.Text = txtOutputQty.Text.Remove(txtOutputQty.Text.Length - 1);
+            }
+        }
+
+        private void btnImport_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (OpenFileDialog ofd = new OpenFileDialog() { Filter = "Excel Workbook|*.xlsx" })
+                {
+                    if (ofd.ShowDialog() == DialogResult.OK)
+                    {
+                        using (var workbook = new ClosedXML.Excel.XLWorkbook(ofd.FileName))
+                        {
+                            var worksheet = workbook.Worksheet(1);
+                            var rows = worksheet.RowsUsed().Skip(1);
+                            using (var db = new FPYEntities())
+                            {
+                                foreach (var row in rows)
+                                {
+                                    var partNo = row.Cell(1).Value.ToString();
+                                    var workOrderNo = row.Cell(2).Value.ToString();
+                                    var outputQty = Convert.ToInt32(row.Cell(3).Value.ToString());
+                                    var description = row.Cell(4).Value.ToString();
+                                    var timestamp = DateTime.Now; // Lấy thời gian hiện tại
+
+                                    var product = db.Products.FirstOrDefault(p => p.PartNo == partNo);
+                                    if (product == null)
+                                    {
+                                        product = new Product();
+                                        product.PartNo = partNo;
+                                        db.Products.Add(product);
+                                        db.SaveChanges();
+                                    }
+
+                                    var workOrder = db.WorkOrders.FirstOrDefault(p => p.WorkOrderNo == workOrderNo);
+                                    if (workOrder == null)
+                                    {
+                                        workOrder = new WorkOrder();
+                                        workOrder.PartNo = product.ProductID;
+                                        workOrder.WorkOrderNo = workOrderNo;
+                                        workOrder.OutputQuantityPC = outputQty;
+                                        workOrder.Description = description;
+                                        workOrder.Timestamp = timestamp;
+                                        db.WorkOrders.Add(workOrder);
+                                        db.SaveChanges();
+                                    }
+                                }
+                            }
+                            MessageBox.Show("Import Successful", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            LoadData();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

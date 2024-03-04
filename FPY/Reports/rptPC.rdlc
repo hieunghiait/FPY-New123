@@ -6,16 +6,16 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>0.95001in</Width>
+              <Width>0.46251in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.95001in</Width>
+              <Width>1.21459in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.95001in</Width>
+              <Width>1.02084in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.95001in</Width>
+              <Width>1.02084in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -69,7 +69,9 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox3</rd:DefaultName>
@@ -101,7 +103,9 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox5</rd:DefaultName>
@@ -133,7 +137,9 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox7</rd:DefaultName>
@@ -198,7 +204,9 @@
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>WorkOrderID</rd:DefaultName>
@@ -228,7 +236,9 @@
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>PartNo</rd:DefaultName>
@@ -258,7 +268,9 @@
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>WorkOrderNo</rd:DefaultName>
@@ -299,9 +311,9 @@
         </TablixRowHierarchy>
         <DataSetName>DataSetPC</DataSetName>
         <Top>0.85292in</Top>
-        <Left>1.41542in</Left>
+        <Left>1.13209in</Left>
         <Height>0.5in</Height>
-        <Width>3.80004in</Width>
+        <Width>3.71879in</Width>
         <Style>
           <Border>
             <Style>None</Style>

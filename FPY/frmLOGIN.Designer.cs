@@ -37,14 +37,15 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnLogin = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnConnectDB = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -61,17 +62,19 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(572, 237);
+            this.panel1.Size = new System.Drawing.Size(429, 192);
             this.panel1.TabIndex = 10;
             // 
             // lblNotification
             // 
             this.lblNotification.AutoSize = true;
             this.lblNotification.ForeColor = System.Drawing.Color.Red;
-            this.lblNotification.Location = new System.Drawing.Point(199, 214);
+            this.lblNotification.Location = new System.Drawing.Point(149, 174);
+            this.lblNotification.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblNotification.Name = "lblNotification";
-            this.lblNotification.Size = new System.Drawing.Size(84, 16);
+            this.lblNotification.Size = new System.Drawing.Size(70, 13);
             this.lblNotification.TabIndex = 9;
             this.lblNotification.Text = "<notification>";
             // 
@@ -80,9 +83,10 @@
             this.chkSave.AutoSize = true;
             this.chkSave.Checked = true;
             this.chkSave.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSave.Location = new System.Drawing.Point(202, 192);
+            this.chkSave.Location = new System.Drawing.Point(152, 156);
+            this.chkSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.chkSave.Name = "chkSave";
-            this.chkSave.Size = new System.Drawing.Size(198, 20);
+            this.chkSave.Size = new System.Drawing.Size(167, 17);
             this.chkSave.TabIndex = 8;
             this.chkSave.Text = "Lưu tên đăng nhập, mật khẩu";
             this.chkSave.UseVisualStyleBackColor = true;
@@ -92,18 +96,20 @@
             // 
             this.txtPassword.AcceptsTab = true;
             this.txtPassword.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtPassword.Location = new System.Drawing.Point(202, 156);
+            this.txtPassword.Location = new System.Drawing.Point(152, 127);
+            this.txtPassword.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(220, 30);
+            this.txtPassword.Size = new System.Drawing.Size(166, 25);
             this.txtPassword.TabIndex = 7;
             this.txtPassword.UseSystemPasswordChar = true;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(108, 164);
+            this.label5.Location = new System.Drawing.Point(81, 133);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(73, 16);
+            this.label5.Size = new System.Drawing.Size(59, 13);
             this.label5.TabIndex = 6;
             this.label5.Text = "Password: ";
             // 
@@ -111,58 +117,76 @@
             // 
             this.txtUsername.AcceptsTab = true;
             this.txtUsername.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtUsername.Location = new System.Drawing.Point(202, 112);
+            this.txtUsername.Location = new System.Drawing.Point(152, 91);
+            this.txtUsername.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(220, 30);
+            this.txtUsername.Size = new System.Drawing.Size(166, 25);
             this.txtUsername.TabIndex = 5;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(108, 120);
+            this.label4.Location = new System.Drawing.Point(81, 98);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(76, 16);
+            this.label4.Size = new System.Drawing.Size(61, 13);
             this.label4.TabIndex = 4;
             this.label4.Text = "Username: ";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(149, 70);
+            this.label3.Location = new System.Drawing.Point(112, 57);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(377, 16);
+            this.label3.Size = new System.Drawing.Size(312, 13);
             this.label3.TabIndex = 3;
             this.label3.Text = "Nếu chưa có tài khoản đăng nhập, vui lòng liên hệ quản trị viên.";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(149, 50);
+            this.label2.Location = new System.Drawing.Point(112, 41);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(227, 16);
+            this.label2.Size = new System.Drawing.Size(188, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "Vui lòng đăng nhập trước khi sử dụng.";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::FPY.Properties.Resources.icon_DangNhap_64dp;
+            this.pictureBox1.Location = new System.Drawing.Point(40, 23);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 14F);
             this.label1.ForeColor = System.Drawing.Color.Green;
-            this.label1.Location = new System.Drawing.Point(147, 9);
+            this.label1.Location = new System.Drawing.Point(110, 7);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(113, 32);
+            this.label1.Size = new System.Drawing.Size(90, 25);
             this.label1.TabIndex = 0;
             this.label1.Text = "Welcome";
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel2.Controls.Add(this.btnConnectDB);
             this.panel2.Controls.Add(this.btnExit);
             this.panel2.Controls.Add(this.btnLogin);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 237);
+            this.panel2.Location = new System.Drawing.Point(0, 192);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(572, 66);
+            this.panel2.Size = new System.Drawing.Size(429, 54);
             this.panel2.TabIndex = 11;
             // 
             // btnExit
@@ -174,9 +198,10 @@
             this.btnExit.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExit.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.btnExit.Location = new System.Drawing.Point(435, 15);
+            this.btnExit.Location = new System.Drawing.Point(326, 12);
+            this.btnExit.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(107, 37);
+            this.btnExit.Size = new System.Drawing.Size(80, 30);
             this.btnExit.TabIndex = 1;
             this.btnExit.Text = "Exit";
             this.btnExit.UseVisualStyleBackColor = false;
@@ -190,40 +215,50 @@
             this.btnLogin.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.btnLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogin.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnLogin.Location = new System.Drawing.Point(308, 15);
+            this.btnLogin.Location = new System.Drawing.Point(231, 12);
+            this.btnLogin.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(107, 37);
+            this.btnLogin.Size = new System.Drawing.Size(80, 30);
             this.btnLogin.TabIndex = 0;
             this.btnLogin.Text = "Login";
             this.btnLogin.UseVisualStyleBackColor = false;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
-            // pictureBox1
+            // btnConnectDB
             // 
-            this.pictureBox1.Image = global::FPY.Properties.Resources.icon_DangNhap_64dp;
-            this.pictureBox1.Location = new System.Drawing.Point(53, 28);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(64, 64);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
+            this.btnConnectDB.BackColor = System.Drawing.Color.Silver;
+            this.btnConnectDB.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnConnectDB.FlatAppearance.BorderSize = 0;
+            this.btnConnectDB.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.btnConnectDB.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.btnConnectDB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConnectDB.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.btnConnectDB.Location = new System.Drawing.Point(11, 13);
+            this.btnConnectDB.Margin = new System.Windows.Forms.Padding(2);
+            this.btnConnectDB.Name = "btnConnectDB";
+            this.btnConnectDB.Size = new System.Drawing.Size(116, 30);
+            this.btnConnectDB.TabIndex = 2;
+            this.btnConnectDB.Text = "Connect DB";
+            this.btnConnectDB.UseVisualStyleBackColor = false;
+            this.btnConnectDB.Click += new System.EventHandler(this.btnConnectDB_Click);
             // 
             // frmLOGIN
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(572, 303);
+            this.ClientSize = new System.Drawing.Size(429, 246);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "frmLOGIN";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmLOGIN";
             this.Load += new System.EventHandler(this.frmLOGIN_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -244,5 +279,6 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Button btnLogin;
+        private System.Windows.Forms.Button btnConnectDB;
     }
 }
