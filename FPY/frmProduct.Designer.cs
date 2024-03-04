@@ -44,7 +44,7 @@
             this.label.AutoSize = true;
             this.label.Location = new System.Drawing.Point(38, 38);
             this.label.Name = "label";
-            this.label.Size = new System.Drawing.Size(84, 20);
+            this.label.Size = new System.Drawing.Size(67, 16);
             this.label.TabIndex = 0;
             this.label.Text = "PART NO";
             // 
@@ -74,7 +74,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(52, 256);
+            this.btnSave.Location = new System.Drawing.Point(17, 184);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(88, 42);
             this.btnSave.TabIndex = 5;
@@ -84,7 +84,7 @@
             // 
             // btnEdit
             // 
-            this.btnEdit.Location = new System.Drawing.Point(41, 304);
+            this.btnEdit.Location = new System.Drawing.Point(120, 184);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(124, 42);
             this.btnEdit.TabIndex = 6;
@@ -94,7 +94,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(54, 352);
+            this.btnDelete.Location = new System.Drawing.Point(265, 184);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(86, 42);
             this.btnDelete.TabIndex = 7;
@@ -116,7 +116,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(38, 84);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(79, 20);
+            this.label1.Size = new System.Drawing.Size(63, 16);
             this.label1.TabIndex = 9;
             this.label1.Text = "SEARCH";
             // 

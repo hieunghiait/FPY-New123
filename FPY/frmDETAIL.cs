@@ -20,10 +20,7 @@ namespace FPY
             //set title 
             this.Text = "FORM DETAIL"; 
         }
-        public void LoadDataDetail()
-        {
-           
-        }
+        
         private void frmDetail_Load(object sender, EventArgs e)
         {
             LoadData(); // Load data for the first time
@@ -42,15 +39,16 @@ namespace FPY
                                 select new
                                 {
                                     detail.DetailingID,
-                                    PartNo = p.ProductID, // Assuming PartNo is the same as ProductID
+                                    p.PartNo,
                                     wo.WorkOrderNo,
                                     detail.InputQuantityDetail,
                                     detail.OutputQuantityDetail,
                                     detail.DMRDetail,
                                     detail.Timestamp
-                                }).ToList();
-
+                                }).ToList();    
                     dgvDetail.DataSource = data;
+                    dgvDetail.Rows[0].Selected = true;
+                    BindFirstRowToInputs();
                 }
                 catch (Exception ex)
                 {
@@ -59,7 +57,19 @@ namespace FPY
 
             }
         }
-
+        private void BindFirstRowToInputs()
+        {
+            if (dgvDetail.Rows.Count > 0)
+            {
+                txtDetailID.Text = dgvDetail.Rows[0].Cells["DetailingID"].FormattedValue.ToString() ?? "";
+                txtPartNo.Text = dgvDetail.Rows[0].Cells["PartNo"].FormattedValue.ToString() ?? "";
+                txtWO.Text = dgvDetail.Rows[0].Cells["WorkOrderNo"].FormattedValue.ToString() ?? "";
+                txtInputQtyDetail.Text = dgvDetail.Rows[0].Cells["InputQuantityDetail"].FormattedValue.ToString() ?? "";
+                txtOutputQtyDetail.Text = dgvDetail.Rows[0].Cells["OutputQuantityDetail"].FormattedValue.ToString() ?? "";
+                txtDescriptionDetail.Text = dgvDetail.Rows[0].Cells["DMRDetail"].FormattedValue.ToString() ?? "";
+                txtDMRDetail.Text = dgvDetail.Rows[0].Cells["DMRDetail"].FormattedValue.ToString() ?? "";
+            }
+        }
         private void btnCapNhat_Click(object sender, EventArgs e)
         {
             using (var db = new FPYEntities())
@@ -69,12 +79,12 @@ namespace FPY
                     var detailId = int.Parse(txtDetailID.Text);
                     var detail = db.Detailings.Find(detailId);
                     
-                    var partNo = txtPartNo.Text;
-                    var workOrderNo = txtWO.Text;
+                    var partNo = txtPartNo.Text.Trim();
+                    var workOrderNo = txtWO.Text.Trim();
 
                     if (detail == null)
                     {
-                        MessageBox.Show("Không tìm thấy dữ liệu");
+                        MessageBox.Show("Không tìm thấy dữ liệu", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
@@ -86,18 +96,12 @@ namespace FPY
                     {
                         dmrDetail = 0; // Default DMR to 0 if not provided or invalid
                     }
-
                     var currentTime = DateTime.Now;
-
-                    // Update Detailing
                     detail.OutputQuantityDetail = outputQtyDetail;
                     detail.DMRDetail = dmrDetail;
                     detail.Timestamp = currentTime;
-
-                    
                     var confirmation = MessageBox.Show("Bạn có chắc chắn muốn cập nhật ? " + partNo + " với " + workOrderNo, " Xác nhận ", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                    // Proceed if user confirms
                     if (confirmation == DialogResult.Yes)
                     {
                         // Update QualityControl or create new one
@@ -106,7 +110,6 @@ namespace FPY
                         if (qc != null)
                         {
                             qc.InputQuantityQC = outputQtyDetail;
-                            qc.DMRQC = dmrDetail;
                             qc.Timestamp = currentTime;
                         }
                         else
@@ -116,18 +119,16 @@ namespace FPY
                             {
                                 DetailingID = detailId,
                                 InputQuantityQC = outputQtyDetail,
-                                DMRQC = dmrDetail,
                                 Timestamp = currentTime
                             };
                             db.QualityControls.Add(newQC);
                         }
-
                         // Save changes to the database
                         db.SaveChanges();
 
                         // Display success message with DialogResult
                         var result = MessageBox.Show("Cập nhật thành công", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                        LoadData();
                         // If user clicks OK, refresh the DataGridView
                         if (result == DialogResult.OK)
                         {
@@ -166,13 +167,13 @@ namespace FPY
                 if (dgvDetail.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
                 {
                     dgvDetail.CurrentRow.Selected = true;
-                    txtDetailID.Text = dgvDetail.Rows[e.RowIndex].Cells["DetailingID"].FormattedValue.ToString();
-                    txtPartNo.Text = dgvDetail.Rows[e.RowIndex].Cells["PartNo"].FormattedValue.ToString();
-                    txtWO.Text = dgvDetail.Rows[e.RowIndex].Cells["WorkOrderNo"].FormattedValue.ToString();
-                    txtInputQtyDetail.Text = dgvDetail.Rows[e.RowIndex].Cells["InputQuantityDetail"].FormattedValue.ToString();
-                    txtOutputQtyDetail.Text = dgvDetail.Rows[e.RowIndex].Cells["OutputQuantityDetail"].FormattedValue.ToString();
-                    txtDescriptionDetail.Text = dgvDetail.Rows[e.RowIndex].Cells["DMRDetail"].FormattedValue.ToString();
-                    txtDMRDetail.Text = dgvDetail.Rows[e.RowIndex].Cells["DMRDetail"].FormattedValue.ToString();
+                    txtDetailID.Text = dgvDetail.Rows[e.RowIndex].Cells["DetailingID"].FormattedValue.ToString() ?? "";
+                    txtPartNo.Text = dgvDetail.Rows[e.RowIndex].Cells["PartNo"].FormattedValue.ToString() ?? "";
+                    txtWO.Text = dgvDetail.Rows[e.RowIndex].Cells["WorkOrderNo"].FormattedValue.ToString() ?? "";
+                    txtInputQtyDetail.Text = dgvDetail.Rows[e.RowIndex].Cells["InputQuantityDetail"].FormattedValue.ToString() ?? "";
+                    txtOutputQtyDetail.Text = dgvDetail.Rows[e.RowIndex].Cells["OutputQuantityDetail"].FormattedValue.ToString() ?? "";
+                    txtDescriptionDetail.Text = dgvDetail.Rows[e.RowIndex].Cells["DMRDetail"].FormattedValue.ToString() ?? "";
+                    txtDMRDetail.Text = dgvDetail.Rows[e.RowIndex].Cells["DMRDetail"].FormattedValue.ToString() ?? "";
                 }
             }
             catch (Exception ex)
@@ -198,7 +199,7 @@ namespace FPY
 
                     if (detail == null)
                     {
-                        MessageBox.Show("Không tìm thấy dữ liệu");
+                        MessageBox.Show("Không tìm thấy dữ liệu", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
@@ -208,7 +209,8 @@ namespace FPY
                     {
                         db.Detailings.Remove(detail);
                         db.SaveChanges();
-                        MessageBox.Show("Xóa thành công");
+                        //Hiển thị thông báo xóa thành công 
+                        MessageBox.Show("Xóa thành công", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadData();
                     }
                 }
@@ -224,7 +226,8 @@ namespace FPY
             //cho phép nhập số 
             if (System.Text.RegularExpressions.Regex.IsMatch(txtOutputQtyDetail.Text, "[^0-9]"))
             {
-                MessageBox.Show("Chỉ cho phép nhập số");
+                //Hiển thị thông báo chỉ cho phép nhập số 
+                MessageBox.Show("Chỉ cho phép nhập số", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);    
                 txtOutputQtyDetail.Text = txtOutputQtyDetail.Text.Remove(txtOutputQtyDetail.Text.Length - 1);
             }
         }
@@ -234,7 +237,8 @@ namespace FPY
             //cho phép nhập số 
             if (System.Text.RegularExpressions.Regex.IsMatch(txtDMRDetail.Text, "[^0-9]"))
             {
-                MessageBox.Show("Chỉ cho phép nhập số");
+
+                MessageBox.Show("Chỉ cho phép nhập số", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtDMRDetail.Text = txtDMRDetail.Text.Remove(txtDMRDetail.Text.Length - 1);
             }
         }
@@ -271,6 +275,7 @@ namespace FPY
                                    detail.Timestamp
                                }).ToList();
                     dgvDetail.DataSource = data;
+                    dgvDetail.Rows[0].Selected = true;
                 }
             }
             catch (Exception ex)
@@ -301,13 +306,18 @@ namespace FPY
                                     detail.Timestamp
                                 }).ToList();
                     dgvDetail.DataSource = data;
-                    dgvDetail.DataSource = data;
+                    dgvDetail.Rows[0].Selected = true;
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void dgvDetail_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

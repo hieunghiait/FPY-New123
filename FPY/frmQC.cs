@@ -19,7 +19,6 @@ namespace FPY
         }
 
         #region Function 
-        //Function to load data from database to datagridview
         public void LoadData()
         {
             using (var db = new FPYEntities())
@@ -38,10 +37,24 @@ namespace FPY
                                qc.DMRQC, 
                                qc.Timestamp
                             };
-                dgvQC.DataSource = data.ToList();
-                dgvQC.Refresh();
+                dgvQC.DataSource = data.ToList(); 
+                dgvQC.Rows[0].Selected = true;
+                BindFirstRowToInputs();
             }
         }
+        private void BindFirstRowToInputs()
+        {
+            if (dgvQC.Rows.Count > 0)
+            {
+                txtQCID.Text = dgvQC.Rows[0].Cells["QCOperationID"].Value.ToString() ?? "";
+                txtPartNo.Text = dgvQC.Rows[0].Cells["PartNo"].Value.ToString() ?? "";
+                txtWO.Text = dgvQC.Rows[0].Cells["WorkOrderNo"].Value.ToString() ?? "";
+                txtInputQtyQC.Text = dgvQC.Rows[0].Cells["InputQuantityQC"].Value.ToString() ?? "";
+                txtOutputQtyQC.Text = dgvQC.Rows[0].Cells["OutputQuantityQC"].Value.ToString() ?? "";
+                txtDRMQC.Text = dgvQC.Rows[0].Cells["DMRQC"].Value.ToString() ?? "";
+            }
+        }
+
         #endregion
         #region Event
         private void frmQC_Load(object sender, EventArgs e)
@@ -62,8 +75,11 @@ namespace FPY
                     qc.OutputQuantityQC = Convert.ToInt32(txtOutputQtyQC.Text);
                     qc.DMRQC = Convert.ToInt32(txtDRMQC.Text);
                     db.QualityControls.Add(qc);
-                    db.SaveChanges();
-                    LoadData();
+                    if(db.SaveChanges() > 0)
+                    {
+                        MessageBox.Show("Saved successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadData();
+                    } 
                 }catch(Exception ex)
                 {
                        MessageBox.Show(ex.Message);
@@ -114,27 +130,41 @@ namespace FPY
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            using (var db = new FPYEntities())
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to update this record?", "Confirm Update", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
             {
-                try
+                using (var db = new FPYEntities())
                 {
-                    int id = Convert.ToInt32(txtQCID.Text);
-                    var qc = db.QualityControls.Where(x => x.QCOperationID == id).FirstOrDefault();
-                    qc.OutputQuantityQC = Convert.ToInt32(txtOutputQtyQC.Text);
-                    qc.DMRQC = Convert.ToInt32(txtDRMQC.Text);
-                    qc.Timestamp = DateTime.Now;    
-                    if(db.SaveChanges() > 0)
+                    try
                     {
-                           MessageBox.Show("Updated successfully");
-                    }else
-                    {
-                        MessageBox.Show("Update failed");   
+                        int id = Convert.ToInt32(txtQCID.Text);
+                        var qc = db.QualityControls.Where(x => x.QCOperationID == id).FirstOrDefault();
+                        if (qc != null)
+                        {
+                            qc.OutputQuantityQC = Convert.ToInt32(txtOutputQtyQC.Text);
+                            // Assuming DMRQC is an integer and txtDRMQC should not be empty, otherwise, you'll need int.TryParse as shown in previous examples
+                            qc.DMRQC = Convert.ToInt32(txtDRMQC.Text);
+                            qc.Timestamp = DateTime.Now;
+
+                            if (db.SaveChanges() > 0)
+                            {
+                                MessageBox.Show("Update successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            else
+                            {
+                                MessageBox.Show("No changes were made to the record.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Record not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        LoadData();
                     }
-                    LoadData();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
@@ -146,6 +176,10 @@ namespace FPY
 
         private void dgvQC_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if(e.RowIndex < 0)
+            {
+                return;
+            }    
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = this.dgvQC.Rows[e.RowIndex];
@@ -186,14 +220,14 @@ namespace FPY
                 MessageBox.Show(ex.Message);
             }
         }
-
+        
         private void txtPartNoSearch_TextChanged(object sender, EventArgs e)
         {
             try
             {
                 using (var db = new FPYEntities())
                 {
-                    var search = txtPartNoSearch.Text;
+                    var search = txtPartNoSearch.Text.Trim();
                     if (search == string.Empty)
                     {
                         LoadData();
@@ -215,6 +249,8 @@ namespace FPY
                                    qc.Timestamp
                                };
                     dgvQC.DataSource = data.ToList();
+                    dgvQC.Rows[0].Selected = true;
+                    BindFirstRowToInputs(); 
                     dgvQC.Refresh();
                 }
             }
@@ -228,6 +264,15 @@ namespace FPY
         {
             LoadData(); 
             MessageBox.Show("Data reloaded successfully", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void txtDRMQC_TextChanged(object sender, EventArgs e)
+        {
+            if (!int.TryParse(txtDRMQC.Text, out int result))
+            {
+                MessageBox.Show("Please enter a valid number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtDRMQC.Text = "";
+            }
         }
     }
 }

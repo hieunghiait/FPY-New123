@@ -68,10 +68,25 @@ namespace FPY
             }
         }
         #endregion
+        public static string hashPassword(string password)
+        {
+            using(SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+                StringBuilder builder = new StringBuilder();
+
+                for(int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }    
+        }
+
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            string username = txtUsername.Text;
-            string password = txtPassword.Text; 
+            string username = txtUsername.Text.Trim();
+            string password = txtPassword.Text.Trim(); 
             if(isValidLogin(username, password))
             {
                 ///Kiểm tra xem người dùng có chọn lưu thông tin đăng nhập không
@@ -98,7 +113,7 @@ namespace FPY
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            DialogResult dialog = MessageBox.Show("Bạn có muốn thoát không?", "Thoát", MessageBoxButtons.YesNo);
+            DialogResult dialog = MessageBox.Show("Bạn có muốn thoát không?", "Thoát", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
             if (dialog == DialogResult.Yes)
             {
                 Application.Exit();
@@ -116,12 +131,18 @@ namespace FPY
             chkSave.Checked = Settings.Default.Login_IsSaved;
             if (chkSave.Checked)
             {
-
                 txtUsername.Text = Settings.Default.Login_UserName;
                 txtPassword.Text = Settings.Default.Login_Password;
             }
 
-            lblNotification.Text = string.Empty;
+            lblNotification.Text = string.Empty; //set empty label notification
+        }
+
+        private void btnConnectDB_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            frmKetNoi frmConnect = new frmKetNoi();
+            frmConnect.Show(); 
         }
     }
 }
